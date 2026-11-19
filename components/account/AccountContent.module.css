@@ -1,0 +1,44 @@
+.accent { color: var(--color-gold); }
+
+.choose { padding-block: var(--space-4) var(--space-5); }
+.chooseTitle { display: flex; align-items: center; justify-content: center; gap: var(--space-3); margin: 0 0 var(--space-4); font-size: 1.5rem; font-weight: 800; text-align: center; }
+.chooseTitle::before, .chooseTitle::after { content: ""; flex: 0 1 4rem; height: 3px; border-radius: 2px; background: var(--color-brand); }
+
+.cards { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+/* icon | text | button in one row, as in the mobile design (narrow phones: button drops under the text) */
+.card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "icon text btn"; gap: var(--space-2); align-items: center; padding: var(--space-3) var(--space-2) var(--space-3) var(--space-3); border-radius: 16px; border: 1px solid var(--color-line); }
+.toneGreen { background: #e8f3ed; }
+.toneGold { background: #fff6dc; border-color: #f3e3ae; }
+.circle { grid-area: icon; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #d4ead9; color: var(--color-brand); }
+.toneGold .circle { background: #fdecb3; color: #e0a100; }
+.cardText { grid-area: text; min-width: 0; }
+.cardText h3 { margin: 0 0 2px; font-size: 1.1rem; }
+.cardText p { margin: 0; line-height: 1.3; font-size: 0.85rem; }
+.btn { grid-area: btn; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 48px; padding: 0 var(--space-3); max-width: 7.6rem; border-radius: 999px; font-weight: 800; font-size: 0.85rem; text-decoration: none; text-align: center; line-height: 1.15; }
+.btnGreen { background: var(--color-brand-dark); color: #fff; border: 2px solid var(--color-brand-dark); }
+.btnGreen:hover { background: var(--color-forest); }
+.btnGold { background: var(--color-gold); color: #11301c; border: 2px solid var(--color-gold); }
+.btnGold:hover { background: #ffc61a; }
+.btnOutline { background: transparent; color: var(--color-ink); border: 2px solid var(--color-brand-dark); }
+.btnOutline:hover { background: var(--color-brand-soft); }
+
+@media (max-width: 359px) {
+  .card { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "icon text" "btn btn"; }
+  .btn { max-width: none; }
+}
+
+@media (min-width: 440px) and (max-width: 899px) {
+  .circle { width: 64px; height: 64px; }
+  .cardText p { font-size: 0.95rem; }
+  .btn { max-width: 10.5rem; font-size: 0.95rem; padding: 0 var(--space-4); }
+}
+
+@media (min-width: 900px) {
+  .choose { padding-block: var(--space-5) var(--space-6); }
+  .chooseTitle { font-size: 2.1rem; margin-bottom: var(--space-5); }
+  .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+  .card { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "icon text" "btn btn"; align-items: start; padding: var(--space-4); }
+  .circle { width: 64px; height: 64px; }
+  .cardText p { font-size: 0.95rem; }
+  .btn { justify-self: center; min-height: 54px; padding: 0 var(--space-5); max-width: none; font-size: 1rem; }
+}

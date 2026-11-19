@@ -1,0 +1,156 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+  background: linear-gradient(115deg, #082d19 0%, #0d4a28 60%, #135c32 100%);
+  /* Bottom room: the white content card overlaps the hero's lower edge and a
+     strip of the crop field stays visible between the text and the card. */
+  padding: var(--space-4) 0 9rem;
+}
+
+/* Crop-field photo: right side on every screen, fading into the green. */
+.media {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 58%;
+  z-index: -3;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 28%),
+    linear-gradient(180deg, transparent 0%, #000 22%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 28%),
+    linear-gradient(180deg, transparent 0%, #000 22%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.photo {
+  object-fit: cover;
+  object-position: 60% 60%;
+}
+
+/* Strong green overlay on the text side keeps white text readable. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(90deg, rgb(8 45 25 / 88%) 0%, rgb(8 45 25 / 60%) 55%, rgb(8 45 25 / 8%) 100%);
+}
+
+.yellow,
+.green {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+}
+
+.yellow {
+  right: -9rem;
+  bottom: -9.5rem;
+  width: 16rem;
+  height: 16rem;
+  background: var(--color-gold);
+}
+
+.green {
+  right: -8rem;
+  bottom: -10.5rem;
+  width: 16rem;
+  height: 16rem;
+  background: var(--color-brand-dark);
+}
+
+.content {
+  position: relative;
+}
+
+.title {
+  margin: 0 0 var(--space-2);
+  font-size: clamp(2rem, 9vw, 2.6rem);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.text {
+  max-width: 21rem;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* white curved edge under the hero */
+.curve {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -2.25rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: #fff;
+}
+
+@media (min-width: 560px) {
+  .hero {
+    padding-bottom: 8rem;
+  }
+  .text {
+    max-width: 30rem;
+  }
+  .media {
+    width: 80%;
+    height: 62%;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero {
+    padding: var(--space-5) 0 calc(var(--space-7) + 2.5rem);
+  }
+
+  .media {
+    width: 62%;
+    height: 100%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
+    -webkit-mask-composite: source-over;
+    mask-composite: add;
+  }
+
+  .photo {
+    object-position: 50% 55%;
+  }
+
+  .overlay {
+    background: linear-gradient(90deg, rgb(8 45 25 / 88%) 0%, rgb(8 45 25 / 55%) 50%, rgb(8 45 25 / 0%) 80%);
+  }
+
+  .title {
+    font-size: 3.4rem;
+  }
+
+  .text {
+    max-width: 44rem;
+    font-size: 1.2rem;
+  }
+
+  .yellow {
+    right: -10rem;
+    bottom: -11rem;
+    width: 22rem;
+    height: 22rem;
+  }
+
+  .green {
+    right: -9rem;
+    bottom: -12.5rem;
+    width: 22rem;
+    height: 22rem;
+  }
+
+  .curve {
+    bottom: -3rem;
+    height: 5rem;
+  }
+}

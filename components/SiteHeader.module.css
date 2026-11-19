@@ -1,0 +1,364 @@
+/* ---------- mobile app bar (default) ---------- */
+.strip {
+  display: none;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fff;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 64px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: var(--tap-min);
+  margin-right: auto;
+  color: var(--color-brand-dark);
+  text-decoration: none;
+}
+
+.logo {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brandName {
+  font-weight: 800;
+  font-size: 0.9rem;
+  line-height: 1.15;
+  color: var(--color-ink);
+  /* two even lines ("TDSP Farmers / Value Chain"), never one orphan word */
+  text-wrap: balance;
+}
+
+.nameDesktop,
+.tagline {
+  display: none;
+}
+
+.desktopNav,
+.actions {
+  display: none;
+}
+
+.mobileSwitch {
+  margin-left: auto;
+}
+
+@media (max-width: 399px) {
+  .bar {
+    gap: var(--space-2);
+  }
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+  .brandName {
+    font-size: 0.85rem;
+  }
+}
+
+/* ---------- desktop (>= 900px) ----------
+   Breakpoints come from the measured width of the header's content
+   (nav labels ~480-530px, join button ~170-200px, compact name ~100px, full
+   organisation name ~205px, tagline ~245px), not from device names:
+     900-1279  two rows: brand + actions on top, navigation below, roomy
+     1280+     one row, compact name "TDSP Farmers Value Chain"
+     1360+     one row, full organisation name
+     1440+     tagline added (the first thing dropped when space is tight)
+   The navigation is never squeezed and no control touches the right edge. */
+@media (min-width: 900px) {
+  .strip {
+    display: block;
+    background: var(--color-forest);
+    color: #fff;
+    font-size: 0.875rem;
+  }
+
+  .stripInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 44px;
+  }
+
+  .contactList {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contactList li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .contactList a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .contactList a:hover {
+    text-decoration: underline;
+  }
+
+  .sep {
+    margin: 0 var(--space-2);
+    opacity: 0.6;
+  }
+
+  /* two-row layout */
+  .bar {
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+    min-height: 0;
+  }
+
+  .brand {
+    order: 1;
+    flex: none;
+    min-height: 72px;
+  }
+
+  .actions {
+    order: 2;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .desktopNav {
+    order: 3;
+    flex: 1 0 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .logo {
+    width: 52px;
+    height: 52px;
+  }
+
+  .brandText {
+    display: flex;
+    max-width: 22rem;
+  }
+
+  .nameDesktop {
+    display: none;
+  }
+
+  .brandName {
+    font-size: 0.95rem;
+  }
+
+  .navLink {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    padding: 0 0.45rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .navLink:hover {
+    color: var(--color-brand);
+  }
+
+  .navActive {
+    color: var(--color-brand);
+  }
+
+  .navActive::after {
+    content: "";
+    position: absolute;
+    left: 0.45rem;
+    right: 0.45rem;
+    bottom: 2px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--color-brand);
+  }
+
+  .loginLink {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .joinButton {
+    gap: var(--space-2);
+    padding: 0 var(--space-5);
+    border-radius: 999px;
+    background: var(--color-forest);
+    border-color: var(--color-forest);
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .joinButton:hover {
+    background: var(--color-brand-dark);
+    border-color: var(--color-brand-dark);
+  }
+
+  .mobileSwitch {
+    display: none;
+  }
+}
+
+/* roomier nav row from 1000px (two-row header) */
+@media (min-width: 1000px) and (max-width: 1279px) {
+  .navLink {
+    padding: 0 0.7rem;
+    font-size: 0.9rem;
+  }
+  .navActive::after {
+    left: 0.7rem;
+    right: 0.7rem;
+  }
+}
+
+/* one row (seven navigation items need about 1280px) */
+@media (min-width: 1280px) {
+  .bar {
+    flex-wrap: nowrap;
+    gap: var(--space-4);
+    min-height: 84px;
+  }
+
+  .brand {
+    min-height: var(--tap-min);
+  }
+
+  .logo {
+    width: 56px;
+    height: 56px;
+  }
+
+  .desktopNav {
+    order: 2;
+    flex: 0 1 auto;
+    border-top: 0;
+    margin-inline: auto;
+  }
+
+  .actions {
+    order: 3;
+    margin-left: 0;
+  }
+
+  .navLink {
+    padding: 0 0.6rem;
+  }
+
+  .navActive::after {
+    left: 0.6rem;
+    right: 0.6rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .navLink {
+    font-size: 0.86rem;
+    padding: 0 0.3rem;
+  }
+
+  .navActive::after {
+    left: 0.3rem;
+    right: 0.3rem;
+  }
+}
+
+/* a little more air once the full name is shown */
+@media (min-width: 1440px) {
+  .navLink {
+    font-size: 0.9rem;
+    padding: 0 0.42rem;
+  }
+
+  .navActive::after {
+    left: 0.42rem;
+    right: 0.42rem;
+  }
+}
+
+/* full organisation name replaces the compact name */
+@media (min-width: 1360px) {
+  .nameMobile {
+    display: none;
+  }
+
+  .nameDesktop {
+    display: inline;
+  }
+
+  .brandName {
+    font-size: 0.85rem;
+  }
+
+  .brandText {
+    max-width: 14rem;
+  }
+}
+
+/* tagline last */
+@media (min-width: 1440px) {
+  .brandText {
+    max-width: 20rem;
+  }
+
+  .brandName {
+    font-size: 1rem;
+  }
+
+  .tagline {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-brand);
+  }
+}
+
+.joinButton svg {
+  flex: none;
+}

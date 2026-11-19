@@ -1,0 +1,103 @@
+.section {
+  padding-block: var(--space-5) var(--space-6);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-2);
+  font-size: 1.6rem;
+}
+
+.line {
+  width: 2.5rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-brand);
+}
+
+.subtitle {
+  margin: 0 auto;
+  max-width: 38rem;
+  color: var(--color-muted);
+  font-size: 0.925rem;
+}
+
+/* phones: one readable list, icon on the left, hairline between items */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.item:last-child {
+  border-bottom: 0;
+}
+
+.icon {
+  flex: none;
+  color: var(--color-brand);
+  margin-top: 2px;
+}
+
+.text {
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+@media (min-width: 560px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 var(--space-5);
+  }
+
+  .item:nth-last-child(2) {
+    border-bottom: 0;
+  }
+}
+
+/* desktop: three columns, icon above text, vertical dividers (mockup style) */
+@media (min-width: 900px) {
+  .section {
+    padding-block: var(--space-6) var(--space-7);
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4) 0;
+  }
+
+  .item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    border-bottom: 0;
+  }
+
+  .item:not(:nth-child(3n + 1)) {
+    border-left: 1px solid var(--color-line);
+  }
+}

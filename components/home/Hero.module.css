@@ -1,0 +1,236 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(115deg, #082d19 0%, #0d4a28 55%, #135c32 100%);
+  /* room at the bottom for the statistics strip that overlaps the hero */
+  padding: var(--space-5) 0 calc(var(--space-6) + 2.5rem);
+  min-height: 26rem;
+  isolation: isolate;
+}
+
+/* Farmer photo (phones): a shorter picture anchored bottom-right, fading into
+   the green on the left and top, so the whole face and shoulders stay in view
+   instead of a large, cropped face. */
+.media {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 80%;
+  width: 66%;
+  z-index: -3;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%),
+    linear-gradient(180deg, transparent 0%, #000 24%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 30%),
+    linear-gradient(180deg, transparent 0%, #000 24%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.photo {
+  object-fit: cover;
+  /* ~70% puts the face's centre at about three quarters of the screen width,
+     clear of the text column on 360-412px phones. */
+  object-position: 70% 50%;
+}
+
+/* Darkens the text column only; the face area stays clear and natural. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(90deg, rgb(8 45 25 / 92%) 0%, rgb(8 45 25 / 78%) 40%, rgb(8 45 25 / 30%) 60%, rgb(8 45 25 / 0%) 82%);
+}
+
+.content {
+  position: relative;
+  max-width: 100%;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-3);
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.eyebrowLine {
+  width: 2.5rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-gold);
+}
+
+.title {
+  max-width: 60%;
+  margin: 0 0 var(--space-3);
+  font-size: clamp(1.3rem, 5.6vw, 2.4rem);
+  line-height: 1.2;
+  text-wrap: balance;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.text {
+  max-width: 58%;
+  margin: 0 0 var(--space-5);
+  font-size: clamp(0.85rem, 3.4vw, 1rem);
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 50px;
+  padding: 0 var(--space-5);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.primary {
+  background: var(--color-brand);
+  border: 2px solid #3fae62;
+  color: #fff;
+}
+
+.primary:hover {
+  background: #0c8f37;
+}
+
+.secondary {
+  border: 2px solid #fff;
+  color: #fff;
+  background: transparent;
+}
+
+.secondary:hover {
+  background: rgb(255 255 255 / 14%);
+}
+
+/* Decorative green and yellow shape, bottom right (desktop only). */
+.shapeYellow,
+.shapeGreen,
+.curve {
+  display: none;
+}
+
+@media (min-width: 560px) {
+  .hero {
+    min-height: 30rem;
+  }
+
+  /* Tablet and up: full-height photo again (already approved at 768px). */
+  .media {
+    top: 0;
+    height: auto;
+    width: 64%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 38%);
+    -webkit-mask-composite: source-over;
+    mask-composite: add;
+  }
+
+  .photo {
+    object-position: 72% 30%;
+  }
+
+  .overlay {
+    background: linear-gradient(90deg, rgb(8 45 25 / 88%) 0%, rgb(8 45 25 / 55%) 55%, rgb(8 45 25 / 0%) 100%);
+  }
+
+  .title {
+    max-width: 14em;
+  }
+  .text {
+    max-width: 26rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero {
+    min-height: 34rem;
+    padding-top: var(--space-7);
+  }
+
+  .media {
+    width: 62%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 30%);
+  }
+
+  .photo {
+    object-position: 60% 35%;
+  }
+
+  .overlay {
+    background: linear-gradient(90deg, rgb(8 45 25 / 85%) 0%, rgb(8 45 25 / 40%) 45%, rgb(8 45 25 / 0%) 70%);
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+
+  .text {
+    max-width: 38rem;
+    font-size: 1.2rem;
+  }
+
+  .shapeYellow,
+  .shapeGreen {
+    display: block;
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+  }
+
+  .shapeYellow {
+    right: -9rem;
+    bottom: -12rem;
+    width: 24rem;
+    height: 24rem;
+    background: var(--color-gold);
+  }
+
+  .shapeGreen {
+    right: -8rem;
+    bottom: -13.5rem;
+    width: 24rem;
+    height: 24rem;
+    background: var(--color-brand-dark);
+  }
+
+  /* White curved edge along the bottom of the hero. */
+  .curve {
+    display: block;
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    bottom: -3.25rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    background: #fff;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero {
+    min-height: 36rem;
+  }
+  .title {
+    font-size: 3.5rem;
+  }
+}

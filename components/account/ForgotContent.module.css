@@ -1,0 +1,57 @@
+.stage { display: grid; padding-bottom: var(--space-5); }
+
+.hero { position: relative; isolation: isolate; overflow: hidden; margin-inline: calc(var(--space-4) * -1); background: linear-gradient(180deg, #07391c 0%, #07391c 55%, #0a5a2a 100%); color: #fff; min-height: 18rem; padding: var(--space-3) var(--space-4) 4.5rem; }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgb(7 57 28 / 75%) 0%, rgb(7 57 28 / 25%) 40%, rgb(7 57 28 / 0%) 55%); pointer-events: none; }
+.photo { position: absolute; z-index: -1; right: 0; bottom: 3rem; width: 64%; aspect-ratio: 545 / 368; background: url("/fp-hero-mobile.jpg") center / cover no-repeat; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 24%); mask-image: linear-gradient(90deg, transparent 0%, #000 24%); }
+.heroText { max-width: 50%; }
+.heroText h1 { margin: 0 0 var(--space-2); font-size: clamp(1.8rem, 8vw, 2.4rem); line-height: 1.05; font-weight: 900; }
+.heroText p { margin: 0; font-size: 0.85rem; line-height: 1.4; }
+
+.card { order: 2; position: relative; z-index: 2; margin-top: -3.5rem; padding: var(--space-4) var(--space-3); border-radius: 18px; background: #fff; box-shadow: 0 6px 24px rgb(11 61 34 / 18%); border: 1px solid var(--color-line); }
+.cardHead { display: grid; justify-items: center; gap: var(--space-2); margin-bottom: var(--space-4); text-align: center; }
+.cardHead h2 { margin: 0 0 var(--space-1); font-size: 1.9rem; color: var(--color-forest); line-height: 1.1; }
+.cardHead p { margin: 0; line-height: 1.35; }
+.back { display: flex; align-items: center; justify-content: center; gap: var(--space-3); margin: 0; }
+.back::before, .back::after { content: ""; flex: 1; height: 1px; background: var(--color-line); }
+.back a { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--tap-min); color: var(--color-brand-dark); font-weight: 800; font-size: 1.05rem; text-decoration: underline; text-underline-offset: 3px; }
+
+/* phones: the three steps sit in a light-green strip under the card */
+.steps { order: 3; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: var(--space-3) 0 0; padding: var(--space-3) 0; list-style: none; border-radius: 16px; background: #e4f1e6; }
+.steps li { display: grid; justify-items: center; align-content: start; gap: var(--space-1); padding: 0 var(--space-2); text-align: center; color: var(--color-brand); }
+.steps li + li { border-left: 1px solid rgb(11 61 34 / 15%); }
+.steps h2 { margin: 0; font-size: 0.85rem; line-height: 1.15; color: var(--color-forest); }
+.steps p { margin: 0; font-size: 0.78rem; line-height: 1.25; color: var(--color-ink); }
+
+@media (max-width: 459px) { .steps li { padding: 0 4px; } .steps h2 { font-size: 0.78rem; overflow-wrap: anywhere; } .steps p { font-size: 0.72rem; overflow-wrap: anywhere; } }
+
+@media (min-width: 900px) {
+  .stage { grid-template-columns: minmax(0, 1fr) minmax(0, 0.98fr); grid-template-rows: auto 1fr; padding-top: var(--space-3); padding-bottom: var(--space-6); }
+  .hero { grid-column: 1; grid-row: 1; margin: 0 -3rem 0 0; border-radius: 22px 22px 0 0; min-height: 28rem; padding: 4.8rem 3rem 3rem; }
+  .photo { top: 0; bottom: 0; width: 60%; aspect-ratio: auto; background-image: url("/fp-hero-desktop.jpg"); -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 22%); mask-image: linear-gradient(90deg, transparent 0%, #000 22%); }
+  .heroText { max-width: 16rem; }
+  .heroText h1 { font-size: clamp(2.3rem, 3.4vw, 3.3rem); margin-bottom: var(--space-3); max-width: 5em; }
+  .heroText p { font-size: 1.05rem; }
+
+  .steps { grid-column: 1; grid-row: 2; margin: 0 -3rem 0 0; padding: var(--space-4) 2rem var(--space-5); border-radius: 0 0 22px 22px; background: #045a23; color: #fff; }
+  .steps li { justify-items: start; text-align: left; color: #fff; padding: 0 var(--space-3); }
+  .steps li:first-child { padding-left: 0; }
+  .steps li + li { border-left: 1px solid rgb(255 255 255 / 25%); }
+  .steps h2 { color: #fff; font-size: 1.05rem; margin-top: var(--space-1); }
+  .steps p { color: #e6f2e9; font-size: 0.9rem; }
+
+  .card { grid-column: 2; grid-row: 1 / span 2; align-self: stretch; display: flex; flex-direction: column; justify-content: center; margin-top: 0; padding: var(--space-6) var(--space-5); border-radius: 22px; }
+  .cardHead { display: grid; grid-template-columns: auto 1fr; justify-items: start; align-items: center; gap: var(--space-4); text-align: left; margin-bottom: var(--space-5); }
+  .cardHead h2 { font-size: 2.1rem; }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .hero { padding-left: 2rem; }
+  .heroText h1 { font-size: 2.2rem; }
+  .steps { padding-inline: 1.2rem; }
+  .steps li { padding: 0 var(--space-2); }
+  .steps h2 { font-size: 0.9rem; }
+  .steps p { font-size: 0.8rem; }
+  .cardHead { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+}
+
+@media (max-width: 459px) { .card button[type=submit] { font-size: 1rem; gap: var(--space-2); padding-inline: var(--space-2); } }

@@ -1,0 +1,65 @@
+.section {
+  padding-block: var(--space-3) var(--space-4);
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3);
+  border-radius: 18px;
+  background: #f3f6f4;
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+/* Sunrise-over-soil thumbnail drawn in CSS (no photo needed). */
+.thumb {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 14px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 50% 30%, #ffd36b 0%, rgb(255 211 107 / 0%) 55%),
+    linear-gradient(180deg, #7bc67a 0%, #2f8a3f 60%, #4a3322 61%, #33231a 100%);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.title {
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.text {
+  font-size: 0.9rem;
+  line-height: 1.35;
+  color: var(--color-muted);
+}
+
+.go {
+  flex: none;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-brand-dark);
+  color: #fff;
+}
+
+@media (min-width: 900px) {
+  .section {
+    display: none;
+  }
+}

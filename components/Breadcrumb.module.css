@@ -1,0 +1,44 @@
+.nav {
+  margin-bottom: var(--space-3);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.95rem;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  color: var(--bc-link, #fff);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.sep {
+  opacity: 0.85;
+  color: var(--bc-link, #fff);
+}
+
+.current {
+  color: var(--bc-current, var(--color-gold));
+  font-weight: 700;
+}

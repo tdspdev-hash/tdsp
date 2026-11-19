@@ -1,0 +1,110 @@
+.section {
+  padding-block: var(--space-5) var(--space-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+.card {
+  display: grid;
+  /* icon column, then a divider, then the text (phone layout from the mockup) */
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+  padding: var(--space-4);
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+
+.mint {
+  background: #e9f4ee;
+  border-color: #d3e8da;
+}
+
+.cream {
+  background: #fdf5e1;
+  border-color: #f3e5bb;
+}
+
+.lavender {
+  background: #eeeafa;
+  border-color: #ddd6f3;
+}
+
+.icon {
+  color: var(--color-brand);
+  margin-top: var(--space-1);
+}
+
+.iconBig {
+  width: 48px;
+  height: 48px;
+}
+
+.body {
+  min-width: 0;
+  padding-left: var(--space-4);
+  border-left: 1px solid rgb(11 61 34 / 18%);
+}
+
+.title {
+  margin: 0 0 var(--space-2);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.quote {
+  margin: 0;
+  line-height: 1.55;
+  font-size: 0.975rem;
+}
+
+.note {
+  margin: var(--space-2) 0 0;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.values {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.values li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.check {
+  flex: none;
+  color: var(--color-brand);
+}
+
+@media (min-width: 900px) {
+  .section {
+    padding-block: var(--space-6) var(--space-4);
+  }
+
+  .two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .card {
+    padding: var(--space-5);
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+}

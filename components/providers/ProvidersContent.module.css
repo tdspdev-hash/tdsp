@@ -1,0 +1,10 @@
+.notice {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  margin: var(--space-3) 0 0; padding: var(--space-3); border-radius: 12px;
+  background: #fdf3c8; border: 1px solid #f1e3a0; font-size: 0.9rem; line-height: 1.4;
+}
+.notice svg { flex: none; margin-top: 2px; }
+@media (min-width: 900px) { .notice { align-items: center; padding: 0.6rem var(--space-4); } }
+
+/* long step text must not squash the icon circles */
+.steps > li > span:first-child { min-width: 64px; flex: none; }
