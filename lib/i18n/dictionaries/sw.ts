@@ -812,6 +812,7 @@ export const sw = {
       passwordRequired: "Tafadhali andika nenosiri.",
     },
     invalidCredentials: "Barua pepe au nenosiri si sahihi.",
+    emailNotConfirmed: "Barua pepe haijathibitishwa. Tafadhali fungua kiungo ulichotumiwa kwenye barua pepe yako ili kuthibitisha akaunti.",
     signedIn: "Umeingia kwa mafanikio.",
   },
   forgot: {

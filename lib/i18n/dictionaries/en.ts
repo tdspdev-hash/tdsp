@@ -802,6 +802,7 @@ export const en: Dictionary = {
       passwordRequired: "Please enter your password.",
     },
     invalidCredentials: "The email or password is not correct.",
+    emailNotConfirmed: "Your email address is not confirmed yet. Please open the link we sent to your email to confirm your account.",
     signedIn: "You are signed in.",
   },
   forgot: {
