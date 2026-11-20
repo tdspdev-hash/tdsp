@@ -1,7 +1,7 @@
 /**
  * Database types for the live TDSP Supabase project, public schema.
  *
- * Derived from the live schema (migration 0001_identity, verified 20 Nov 2026)
+ * Derived from the live schema (migrations 0001_identity and 0004_projects, verified 20 Nov 2026)
  * and written in the shape of `supabase gen types typescript`. Regenerate or
  * update this file after every migration; never edit it to disagree with the
  * database. The `private` schema is intentionally absent (not exposed to the API).
@@ -91,6 +91,149 @@ export type Database = {
           region?: string | null;
           village?: string | null;
           ward?: string | null;
+        };
+        Relationships: [];
+      };
+      project_admin: {
+        Row: {
+          created_at: string;
+          created_by: string | null;
+          internal_note: string | null;
+          owner_id: string | null;
+          project_id: string;
+          updated_at: string;
+        };
+        // Staff-only. Clients may write only owner_id and internal_note (column grants).
+        Insert: {
+          created_at?: string;
+          created_by?: string | null;
+          internal_note?: string | null;
+          owner_id?: string | null;
+          project_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          internal_note?: string | null;
+          owner_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "project_admin_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: true;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      project_documents: {
+        Row: {
+          created_at: string;
+          created_by: string | null;
+          id: string;
+          project_id: string;
+          storage_path: string;
+          title_en: string;
+          title_sw: string;
+          visibility: "public" | "staff";
+        };
+        Insert: {
+          project_id: string;
+          storage_path: string;
+          title_en: string;
+          title_sw: string;
+          visibility?: "public" | "staff";
+        };
+        Update: {
+          storage_path?: string;
+          title_en?: string;
+          title_sw?: string;
+          visibility?: "public" | "staff";
+        };
+        Relationships: [
+          {
+            foreignKeyName: "project_documents_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      projects: {
+        Row: {
+          category: string | null;
+          cover_image_path: string | null;
+          created_at: string;
+          description_en: string;
+          description_sw: string;
+          end_date: string | null;
+          id: string;
+          is_sample: boolean;
+          location: string | null;
+          objectives_en: string | null;
+          objectives_sw: string | null;
+          period_label: string | null;
+          project_number: number;
+          publication_status: "draft" | "published" | "archived";
+          published_at: string | null;
+          slug: string;
+          start_date: string | null;
+          status: "planned" | "ongoing" | "completed" | "cancelled";
+          summary_en: string;
+          summary_sw: string;
+          target_group_en: string | null;
+          target_group_sw: string | null;
+          title_en: string;
+          title_sw: string;
+          updated_at: string;
+        };
+        // id, project_number, created_at and updated_at are set by the database.
+        Insert: {
+          category?: string | null;
+          cover_image_path?: string | null;
+          description_en: string;
+          description_sw: string;
+          end_date?: string | null;
+          is_sample?: boolean;
+          location?: string | null;
+          objectives_en?: string | null;
+          objectives_sw?: string | null;
+          period_label?: string | null;
+          publication_status?: "draft" | "published" | "archived";
+          published_at?: string | null;
+          slug: string;
+          start_date?: string | null;
+          status?: "planned" | "ongoing" | "completed" | "cancelled";
+          summary_en: string;
+          summary_sw: string;
+          target_group_en?: string | null;
+          target_group_sw?: string | null;
+          title_en: string;
+          title_sw: string;
+        };
+        Update: {
+          category?: string | null;
+          cover_image_path?: string | null;
+          description_en?: string;
+          description_sw?: string;
+          end_date?: string | null;
+          is_sample?: boolean;
+          location?: string | null;
+          objectives_en?: string | null;
+          objectives_sw?: string | null;
+          period_label?: string | null;
+          publication_status?: "draft" | "published" | "archived";
+          published_at?: string | null;
+          slug?: string;
+          start_date?: string | null;
+          status?: "planned" | "ongoing" | "completed" | "cancelled";
+          summary_en?: string;
+          summary_sw?: string;
+          target_group_en?: string | null;
+          target_group_sw?: string | null;
+          title_en?: string;
+          title_sw?: string;
         };
         Relationships: [];
       };
