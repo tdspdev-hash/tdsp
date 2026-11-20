@@ -21,3 +21,7 @@ export const MOCK_PROJECTS: MockProject[] = [
   { id: "poultry", status: "ongoing", period: "2025–2026", location: "Dodoma", image: "/pm-poultry.jpg" },
   { id: "training", status: "completed", period: "2023–2024", location: "Iringa", image: "/pm-training.jpg" },
 ];
+
+export function getMockProject(id: string): MockProject | undefined {
+  return MOCK_PROJECTS.find((p) => p.id === id);
+}

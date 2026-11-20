@@ -4,6 +4,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { isLocale, locales } from "@/lib/i18n/config";
+import { isPreview } from "@/lib/preview";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import "../globals.css";
 import styles from "./layout.module.css";
@@ -29,6 +30,8 @@ export async function generateMetadata({
       template: `%s | ${dict.meta.siteName}`,
     },
     description: dict.meta.description,
+    // Preview deployments stay out of search engines (see lib/preview.ts).
+    ...(isPreview ? { robots: { index: false, follow: false } } : {}),
   };
 }
 

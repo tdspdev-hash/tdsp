@@ -13,6 +13,7 @@
  */
 import { createClient } from "@/lib/supabase/client";
 import { getSupabaseEnv } from "@/lib/supabase/env";
+import type { Locale } from "@/lib/i18n/config";
 import type { RegisterValues } from "@/lib/validation/auth";
 
 export type AuthResult =
@@ -21,9 +22,15 @@ export type AuthResult =
   | { status: "already_registered" }
   | { status: "invalid_credentials" }
   | { status: "email_not_confirmed" }
+  | { status: "rate_limited" }
   | { status: "error" };
 
-export async function registerMember(values: RegisterValues): Promise<AuthResult> {
+/** Supabase limits how many auth emails it sends (the default sender allows very few per hour). */
+function isRateLimited(error: { status?: number; code?: string }) {
+  return error.status === 429 || error.code === "over_email_send_rate_limit" || error.code === "over_request_rate_limit";
+}
+
+export async function registerMember(values: RegisterValues, lang: Locale): Promise<AuthResult> {
   if (!getSupabaseEnv()) return { status: "not_configured" };
   try {
     const supabase = createClient();
@@ -31,6 +38,8 @@ export async function registerMember(values: RegisterValues): Promise<AuthResult
       email: values.email,
       password: values.password,
       options: {
+        // The confirmation email returns to our callback route (must be allowed in Supabase Auth redirect URLs).
+        emailRedirectTo: `${window.location.origin}/${lang}/auth/confirm`,
         // Registration details are carried as user metadata for a later
         // database trigger to copy into a profile table (proposal pending).
         // Metadata is user-editable and is never used for authorisation.
@@ -48,6 +57,7 @@ export async function registerMember(values: RegisterValues): Promise<AuthResult
       },
     });
     if (error) {
+      if (isRateLimited(error)) return { status: "rate_limited" };
       if (/already/i.test(error.message)) return { status: "already_registered" };
       return { status: "error" };
     }
@@ -80,11 +90,37 @@ export async function signInMember(email: string, password: string): Promise<Aut
   }
 }
 
-export async function requestPasswordReset(email: string): Promise<AuthResult> {
+export async function requestPasswordReset(email: string, lang: Locale): Promise<AuthResult> {
   if (!getSupabaseEnv()) return { status: "not_configured" };
   try {
     const supabase = createClient();
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/${lang}/auth/confirm?next=/${lang}/reset-password`,
+    });
+    if (error) return isRateLimited(error) ? { status: "rate_limited" } : { status: "error" };
+    return { status: "ok" };
+  } catch {
+    return { status: "error" };
+  }
+}
+
+/** Sets a new password for the signed-in (or recovery) session. */
+export async function updatePassword(newPassword: string): Promise<AuthResult> {
+  if (!getSupabaseEnv()) return { status: "not_configured" };
+  try {
+    const supabase = createClient();
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    return error ? { status: "error" } : { status: "ok" };
+  } catch {
+    return { status: "error" };
+  }
+}
+
+export async function signOutMember(): Promise<AuthResult> {
+  if (!getSupabaseEnv()) return { status: "not_configured" };
+  try {
+    const supabase = createClient();
+    const { error } = await supabase.auth.signOut();
     return error ? { status: "error" } : { status: "ok" };
   } catch {
     return { status: "error" };

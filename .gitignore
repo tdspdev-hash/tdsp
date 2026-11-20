@@ -44,3 +44,6 @@ next-env.d.ts
 # private project material: stays on the developer's computer, never in the (public) GitHub repo
 /docs/
 /CLAUDE.md
+
+# extra Next build folders used by the Supabase test config
+/.next-*/

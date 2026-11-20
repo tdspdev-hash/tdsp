@@ -19,7 +19,7 @@ type Props = { lang: Locale; dict: Pick<Dictionary, "forgot" | "form"> };
  * Password-recovery request. Without a connected Supabase project it reports
  * "not connected" and never says an email was sent. When connected, the reply is
  * the same neutral message whether or not the address has an account.
- * NOTE: no /reset-password page exists yet, so the emailed link cannot be completed.
+ * The emailed link goes through /[lang]/auth/confirm to the reset-password page.
  */
 export function ForgotForm({ lang, dict }: Props) {
   const { forgot, form } = dict;
@@ -34,7 +34,9 @@ export function ForgotForm({ lang, dict }: Props) {
   const feedback =
     result?.status === "not_configured"
       ? { kind: "error" as const, text: form.notConfigured }
-      : result?.status === "error"
+      : result?.status === "rate_limited"
+        ? { kind: "error" as const, text: form.rateLimited }
+        : result?.status === "error"
         ? { kind: "error" as const, text: form.genericError }
         : result?.status === "ok"
           ? { kind: "success" as const, text: forgot.sent }
@@ -46,7 +48,7 @@ export function ForgotForm({ lang, dict }: Props) {
       className={lg.form}
       onSubmit={handleSubmit(async (v) => {
         setResult(null);
-        setResult(await requestPasswordReset(v.email));
+        setResult(await requestPasswordReset(v.email, lang));
       })}
     >
       <div className={lg.field}>

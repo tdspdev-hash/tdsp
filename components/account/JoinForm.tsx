@@ -58,7 +58,7 @@ export function JoinForm({ lang, dict }: Props) {
 
   const onSubmit = async (v: RegisterValues) => {
     setResult(null);
-    setResult(await registerMember(v));
+    setResult(await registerMember(v, lang));
   };
 
   if (result?.status === "ok") {
@@ -71,7 +71,7 @@ export function JoinForm({ lang, dict }: Props) {
   }
 
   const feedback =
-    result?.status === "not_configured" ? form.notConfigured : result?.status === "already_registered" ? join.alreadyRegistered : result?.status === "error" ? form.genericError : null;
+    result?.status === "not_configured" ? form.notConfigured : result?.status === "already_registered" ? join.alreadyRegistered : result?.status === "rate_limited" ? form.rateLimited : result?.status === "error" ? form.genericError : null;
 
   const field = (id: keyof RegisterValues, label: string, icon: React.ReactNode, input: React.ReactNode) => (
     <div className={lg.field}>

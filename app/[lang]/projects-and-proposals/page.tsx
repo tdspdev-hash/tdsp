@@ -6,6 +6,9 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 type Props = { params: Promise<{ lang: string }> };
 
+/** Reads published projects from Supabase on every request, so a failed read is never cached as a normal page. */
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
