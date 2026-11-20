@@ -15,9 +15,10 @@ import styles from "./LoginContent.module.css";
 type Props = { lang: Locale; dict: Pick<Dictionary, "login" | "form"> };
 
 /**
- * Login card form. Authentication is NOT connected until the TDSP Supabase
- * project is configured: submitting valid input reports "not connected" and
- * never signs anyone in. "Remember me" has no effect until sign-in works.
+ * Login card form. With Supabase configured it signs in with email + password;
+ * without it, submitting valid input reports "not connected" and never signs
+ * anyone in. A successful sign-in proves identity only, never membership.
+ * "Remember me" has no effect (the session cookie policy is Supabase's default).
  */
 export function LoginForm({ lang, dict }: Props) {
   const { login, form } = dict;
@@ -41,11 +42,13 @@ export function LoginForm({ lang, dict }: Props) {
       ? { kind: "error" as const, text: form.notConfigured }
       : result?.status === "invalid_credentials"
         ? { kind: "error" as const, text: login.invalidCredentials }
-        : result?.status === "error"
-          ? { kind: "error" as const, text: form.genericError }
-          : result?.status === "ok"
-            ? { kind: "success" as const, text: login.signedIn }
-            : null;
+        : result?.status === "email_not_confirmed"
+          ? { kind: "error" as const, text: login.emailNotConfirmed }
+          : result?.status === "error"
+            ? { kind: "error" as const, text: form.genericError }
+            : result?.status === "ok"
+              ? { kind: "success" as const, text: login.signedIn }
+              : null;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className={styles.form}>

@@ -3,9 +3,9 @@
 /**
  * Browser-side auth helpers (Supabase Auth, email + password).
  *
- * STATUS: written but NOT tested against a live Supabase project, because no
- * project is connected yet. Without NEXT_PUBLIC_SUPABASE_* these return
- * "not_configured" and make no network calls.
+ * STATUS: the live project exists with migration 0001 applied, but sign-in,
+ * sign-up and reset have not yet been exercised end to end against it. Without
+ * NEXT_PUBLIC_SUPABASE_* these return "not_configured" and make no network calls.
  *
  * Authentication only proves identity. A successful sign-in must never be
  * treated as approved membership; membership status is checked on the server
@@ -20,6 +20,7 @@ export type AuthResult =
   | { status: "not_configured" }
   | { status: "already_registered" }
   | { status: "invalid_credentials" }
+  | { status: "email_not_confirmed" }
   | { status: "error" };
 
 export async function registerMember(values: RegisterValues): Promise<AuthResult> {
@@ -66,9 +67,12 @@ export async function signInMember(email: string, password: string): Promise<Aut
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
-      return /invalid/i.test(error.message)
-        ? { status: "invalid_credentials" }
-        : { status: "error" };
+      // Prefer the stable error code; keep the message match as a fallback.
+      if (error.code === "email_not_confirmed") return { status: "email_not_confirmed" };
+      if (error.code === "invalid_credentials" || /invalid/i.test(error.message)) {
+        return { status: "invalid_credentials" };
+      }
+      return { status: "error" };
     }
     return { status: "ok" };
   } catch {

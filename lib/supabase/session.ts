@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import type { NextRequest, NextResponse } from "next/server";
+import type { Database } from "./database.types";
 import { getSupabaseEnv } from "./env";
 
 /**
@@ -14,7 +15,7 @@ export async function refreshSession(
   const env = getSupabaseEnv();
   if (!env) return response;
 
-  const supabase = createServerClient(env.url, env.publishableKey, {
+  const supabase = createServerClient<Database>(env.url, env.publishableKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
