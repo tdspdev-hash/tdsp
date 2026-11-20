@@ -1,0 +1,71 @@
+/* Geometry measured from the mockup (720 x 348 reference box), in percentages. */
+.diagram {
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: 720 / 348;
+  width: 100%;
+  max-width: 33rem;
+  margin: 0 auto;
+}
+
+.card {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 7% / 14%;
+  background: #cfe6d3;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+.tl { left: 3%; top: 0; width: 36.7%; height: 45%; }
+.tr { left: 60.8%; top: 0; width: 37.5%; height: 45%; }
+.bl { left: 0; top: 55.2%; width: 39.2%; height: 44.8%; }
+.br { left: 61.1%; top: 55.2%; width: 38.9%; height: 44.8%; }
+
+.photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.label {
+  position: absolute;
+  left: 4%;
+  bottom: 5%;
+  max-width: 88%;
+  display: flex;
+  align-items: center;
+  gap: 4%;
+  padding: 3% 5%;
+  border-radius: 14px;
+  background: rgb(255 255 255 / 94%);
+  color: var(--color-ink);
+  font-weight: 800;
+  font-size: clamp(0.62rem, 2.6cqw, 0.95rem);
+  line-height: 1.12;
+}
+.icon { flex: none; width: 1.5em; height: 1.5em; color: var(--color-brand); }
+
+.arrow { position: absolute; width: 8.5%; height: auto; }
+.aTop { left: 45%; top: 4%; }
+.aRight { left: 74%; top: 46%; transform: rotate(80deg); }
+.aBottom { left: 45%; top: 85%; transform: rotate(180deg); }
+.aLeft { left: 21%; top: 46%; transform: rotate(-95deg); }
+
+.emblem {
+  position: absolute;
+  left: 34.4%;
+  top: 25%;
+  width: 31.7%;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4%;
+  border-radius: 50%;
+  background: #fff;
+  border: max(2px, 0.5cqw) solid var(--color-brand);
+  box-shadow: 0 0 0 max(4px, 1.2cqw) #fff, 0 4px 14px rgb(0 0 0 / 14%);
+  color: var(--color-forest);
+  font-weight: 900;
+  font-size: clamp(0.7rem, 3.1cqw, 1.2rem);
+  line-height: 1.1;
+  text-align: center;
+  padding: 0 8%;
+}
+.emblemIcon { width: 2.2em; height: 2.2em; color: var(--color-brand); }

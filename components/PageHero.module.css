@@ -1,0 +1,164 @@
+/* Shared page hero (Uanachama, Farmers Value Chain, ...). Photos come in through
+   --hero-photo-m / --hero-photo-d so each page only supplies its own images. */
+/* Hero proportions measured against the reference mockups (scaled to the same
+   width): the desktop hero is about 300px tall above the panel, the farmers
+   are large, bright and fill the hero's right half; on phones the farmers sit
+   in the right 60-70% and reach down to the white sheet. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(110deg, #0a3d21 0%, #0d5a2e 60%, #167a3a 100%);
+  /* bottom room = how far the white sheet overlaps the hero */
+  padding: var(--space-3) 0 3.25rem;
+  min-height: var(--hero-min-m, 15.5rem);
+}
+
+/* farmers: sized by height so both always stay in view, never cover-cropped */
+.photo {
+  position: absolute;
+  right: 0;
+  /* below the breadcrumb row so the gold crumb never sits on the photo */
+  top: 3.6rem;
+  bottom: 3.25rem;
+  width: var(--hero-photo-w-m, 78%);
+  z-index: -1;
+  background-image: var(--hero-photo-m);
+  background-position: var(--hero-pos-m, right bottom);
+  background-size: var(--hero-size-m, auto 100%);
+  background-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 30%);
+}
+
+/* darkens ONLY the text column; the faces stay bright and natural */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgb(8 45 25 / 88%) 0%, rgb(8 45 25 / 62%) 36%, rgb(8 45 25 / 0%) 60%);
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+}
+
+.title {
+  max-width: var(--hero-title-max, none);
+  margin: 0 0 var(--space-2);
+  font-size: var(--hero-title-m, clamp(1.75rem, 7.4vw, 2.4rem));
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.text {
+  max-width: var(--hero-text-m, 50%);
+  margin: 0;
+  font-size: clamp(0.82rem, 3.4vw, 0.98rem);
+  line-height: 1.45;
+}
+
+@media (min-width: 560px) {
+  .hero {
+    min-height: 18rem;
+  }
+  .photo {
+    width: 66%;
+  }
+  .text {
+    max-width: 24rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero {
+    min-height: var(--hero-min-md, 23.5rem);
+    padding: var(--space-4) 0 var(--hero-pad-b-md, 5.5rem);
+  }
+
+  /* farmers fill the right half of the hero, from top to the panel */
+  .photo {
+    width: var(--hero-photo-w-md, 52%);
+    top: 0;
+    bottom: var(--hero-photo-b-md, 4.5rem);
+    background: var(--hero-photo-d) var(--hero-pos-md, right center) / cover no-repeat;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 var(--hero-mask-md, 20%));
+    mask-image: linear-gradient(90deg, transparent 0%, #000 var(--hero-mask-md, 20%));
+  }
+
+  .hero::after {
+    background: linear-gradient(90deg, rgb(8 45 25 / 85%) 0%, rgb(8 45 25 / 40%) 36%, rgb(8 45 25 / 0%) 50%);
+  }
+
+  .title {
+    max-width: none;
+    font-size: var(--hero-title-md, 4.4rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .text {
+    max-width: var(--hero-text-md, 31rem);
+    font-size: var(--hero-text-size-md, 1.5rem);
+    line-height: 1.4;
+  }
+}
+
+/* Full size from 1440px. Between 900 and 1439px a page with a long title can
+   opt in (fluidBelow1440) to a viewport-based size so text stays left of the photo. */
+@media (min-width: 1440px) {
+  .photo {
+    background-position: var(--hero-pos-md, right center);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 20%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 20%);
+  }
+  .title {
+    font-size: var(--hero-title-xl, 4.4rem);
+  }
+  .text {
+    max-width: 31rem;
+  }
+}
+
+/* optional yellow rim + green swoosh along the lower right (accentCurve) */
+.curveGold,
+.curveGreen {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.curveGold {
+  right: -22%;
+  bottom: -9.5rem;
+  width: 78%;
+  height: 12rem;
+  background: var(--color-gold);
+}
+
+.curveGreen {
+  right: -20%;
+  bottom: -10.5rem;
+  width: 78%;
+  height: 12rem;
+  background: var(--color-forest);
+}
+
+@media (min-width: 900px) {
+  .curveGold {
+    right: -8%;
+    bottom: -13rem;
+    width: 42%;
+    height: 17rem;
+  }
+  .curveGreen {
+    right: -6%;
+    bottom: -14rem;
+    width: 42%;
+    height: 17rem;
+  }
+}

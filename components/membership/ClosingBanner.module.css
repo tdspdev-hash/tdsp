@@ -1,0 +1,218 @@
+.wrap {
+  padding-block: var(--space-4) var(--space-5);
+}
+
+.banner {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  grid-template-areas:
+    "img title"
+    "cta cta";
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4) var(--space-5);
+  border-radius: 20px;
+  background: linear-gradient(90deg, #dcefdf 0%, #eaf5ec 45%, #f1f8f2 100%);
+  border: 1px solid var(--color-line);
+}
+
+.image {
+  grid-area: img;
+  align-self: stretch;
+  min-height: 5.5rem;
+  border-radius: 14px;
+  background: var(--banner-image) center / cover no-repeat;
+}
+
+.titleBox {
+  grid-area: title;
+  min-width: 0;
+}
+
+.bannerText {
+  display: none;
+  margin: var(--space-2) 0 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  font-weight: 800;
+  color: var(--color-forest);
+}
+
+.cta {
+  grid-area: cta;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 0 var(--space-5);
+  border-radius: 999px;
+  background: var(--color-forest);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cta:hover {
+  background: var(--color-brand-dark);
+}
+
+/* gold + green curve along the bottom right */
+.curveGold,
+.curveGreen {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+}
+
+.curveGreen {
+  right: -3rem;
+  bottom: -3.2rem;
+  width: 15rem;
+  height: 4.5rem;
+  background: var(--color-brand-dark);
+}
+
+.curveGold {
+  right: -2rem;
+  bottom: -2.6rem;
+  width: 17rem;
+  height: 4.8rem;
+  background: var(--color-gold);
+}
+
+@media (min-width: 440px) {
+  .banner {
+    grid-template-columns: 6rem 1fr auto;
+    grid-template-areas: "img title cta";
+    padding: var(--space-3) var(--space-3) var(--space-5);
+  }
+  .title {
+    font-size: 1.05rem;
+  }
+  .cta {
+    padding: 0 var(--space-4);
+    white-space: normal;
+    text-align: center;
+    line-height: 1.15;
+    min-height: 52px;
+    max-width: 9.5rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .wrap {
+    padding-block: var(--space-5) var(--space-6);
+  }
+  .banner {
+    grid-template-columns: 31rem 1fr auto;
+    padding: 0 var(--space-6) 0 0;
+    min-height: 10.6rem;
+    border-radius: 22px;
+  }
+  .image {
+    align-self: stretch;
+    border-radius: 0;
+    min-height: 10.6rem;
+    -webkit-mask-image: linear-gradient(90deg, #000 55%, transparent 100%);
+    mask-image: linear-gradient(90deg, #000 55%, transparent 100%);
+  }
+  .title {
+    font-size: 2.3rem;
+    max-width: 31rem;
+    line-height: 1.15;
+  }
+  .cta {
+    max-width: none;
+    white-space: nowrap;
+    padding: 0 var(--space-6);
+    min-height: 62px;
+    font-size: 1.15rem;
+  }
+  .curveGreen {
+    right: -2rem;
+    bottom: -3.4rem;
+    width: 26rem;
+    height: 6rem;
+  }
+  .curveGold {
+    right: -1rem;
+    bottom: -2.8rem;
+    width: 30rem;
+    height: 6.2rem;
+  }
+}
+
+
+/* ---- dark variant (Masoko) ---- */
+.dark {
+  background: var(--color-forest);
+  border-color: var(--color-forest);
+  color: #fff;
+}
+
+.dark .title {
+  color: #fff;
+}
+
+.dark .bannerText {
+  display: block;
+  color: #e6f2e9;
+}
+
+.dark .image {
+  -webkit-mask-image: linear-gradient(90deg, #000 55%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 55%, transparent 100%);
+}
+
+.dark .cta {
+  background: var(--color-gold);
+  color: #11301c;
+}
+
+.dark .cta:hover {
+  background: #ffc61a;
+}
+
+.dark .curveGreen {
+  background: #0a3d21;
+}
+
+@media (min-width: 440px) {
+  .dark .cta {
+    max-width: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .title.compact {
+    font-size: 1.7rem;
+    max-width: none;
+  }
+}
+
+.dark .cta.outline {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.dark .cta.outline:hover {
+  background: rgb(255 255 255 / 14%);
+}
+
+/* optional action slot (newsletter field) */
+.action { grid-area: cta; min-width: 0; width: 100%; }
+@media (min-width: 440px) { .action { max-width: 22rem; } }
+@media (min-width: 900px) { .action { max-width: 30rem; } }

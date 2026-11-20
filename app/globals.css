@@ -1,0 +1,152 @@
+/* Design tokens and base styles. Mobile-first: base rules target small screens;
+   wider layouts are added with min-width media queries in the CSS Modules. */
+:root {
+  --color-brand: #0a7a2f;
+  --color-brand-dark: #07591f;
+  --color-forest: #0b3d22;
+  --color-gold: #f4b400;
+  --color-brand-soft: #e8f5ec;
+  --color-accent: #e08a00;
+  --color-ink: #1b2a21;
+  --color-muted: #55665c;
+  --color-line: #d6e0d9;
+  --color-bg: #ffffff;
+  --color-surface: #f5f8f6;
+  --color-danger: #b3261e;
+  --color-focus: #1a56db;
+
+  --radius: 14px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --tap-min: 44px; /* minimum touch target */
+  --bottom-nav-h: 64px; /* fixed bottom navigation height (phones) */
+  --content-max: 72rem;
+  --font-sans:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 var(--space-3);
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+h2 {
+  font-size: 1.35rem;
+}
+h3 {
+  font-size: 1.1rem;
+}
+
+p {
+  margin: 0 0 var(--space-4);
+}
+
+a {
+  color: var(--color-brand-dark);
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+/* Wide variant used by the header and the home page sections. */
+.containerWide {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+/* Standard vertical padding for content pages. */
+.page {
+  padding-block: var(--space-5);
+}
+
+/* Phones and small tablets: leave room for the fixed bottom navigation so no
+   content is ever hidden behind it (including the iPhone safe area). */
+@media (max-width: 899px) {
+  body {
+    padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 768px) {
+  .containerWide {
+    padding-inline: var(--space-6);
+  }
+  h1 {
+    font-size: 2.25rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+  .container {
+    padding-inline: var(--space-6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Visually hidden but available to screen readers (e.g. section headings). */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

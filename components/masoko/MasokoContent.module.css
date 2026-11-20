@@ -1,0 +1,76 @@
+.heroActions { display: grid; gap: var(--space-3); margin-top: var(--space-4); width: fit-content; max-width: 100%; }
+.btnGold, .btnOutline {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-height: 50px; padding: 0 var(--space-4); border-radius: 999px;
+  font-weight: 800; font-size: 0.95rem; white-space: nowrap; text-decoration: none; text-align: center;
+}
+.btnGold { background: var(--color-gold); color: #11301c; }
+.btnGold:hover { background: #ffc61a; }
+.btnOutline { border: 2px solid #fff; color: #fff; }
+.btnOutline:hover { background: rgb(255 255 255 / 14%); }
+
+.wrap { position: relative; z-index: 2; margin-top: -3.25rem; padding-inline: 0; }
+.benefits {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2);
+  margin: 0; padding: var(--space-3) var(--space-3) var(--space-2);
+  background: #fff; border-radius: 24px 24px 0 0; list-style: none;
+}
+.benefit { display: grid; grid-template-columns: auto 1fr; gap: var(--space-2); align-items: start; padding: var(--space-3); border-radius: 14px; background: #e8f3ed; }
+.benefitIcon { width: 36px; height: 36px; color: var(--color-brand); }
+.benefit h3 { margin: 0 0 2px; font-size: 0.95rem; line-height: 1.15; }
+.benefit p { margin: 0; font-size: 0.82rem; line-height: 1.3; }
+
+.section { padding-block: var(--space-4) var(--space-2); }
+.h { display: flex; align-items: center; gap: var(--space-3); margin: 0 0 var(--space-3); font-size: 1.25rem; font-weight: 800; }
+.h::before { content: ""; flex: none; width: 1.75rem; height: 3px; border-radius: 2px; background: var(--color-brand); }
+
+.produce { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.tile { position: relative; overflow: hidden; border-radius: 14px; aspect-ratio: 16 / 11; background: var(--color-brand-soft); }
+.tileImg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tileLabel {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: var(--space-2);
+  padding: 0.5rem var(--space-3); background: #0b4a24; color: #fff; font-weight: 800; font-size: 0.95rem;
+}
+.note { margin: var(--space-3) 0 0; padding: var(--space-2) var(--space-3); border-radius: 10px; background: #eef3fd; border: 1px solid var(--color-focus); font-size: 0.875rem; }
+
+.steps { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.step { display: grid; grid-template-columns: auto 1fr; gap: var(--space-3); align-items: center; }
+.stepIcon { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: #e8f3ed; color: var(--color-brand); }
+.step h3 { margin: 0 0 2px; font-size: 1.05rem; }
+.step p { margin: 0; line-height: 1.35; font-size: 0.95rem; }
+.stepArrow { display: none; }
+
+@media (min-width: 560px) {
+  .produce { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+  .heroActions { grid-template-columns: repeat(2, auto); }
+}
+
+@media (min-width: 700px) and (max-width: 899px) { .benefits { grid-template-columns: repeat(4, minmax(0, 1fr)); } .benefit { grid-template-columns: 1fr; } }
+
+@media (min-width: 900px) {
+  .wrap { margin-top: 0; padding-top: var(--space-4); }
+  .benefits { margin-top: 0; }
+  .benefits { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding: var(--space-3) var(--space-4); border-radius: 18px; background: #e8f3ed; }
+  .benefit { background: transparent; padding: var(--space-2) var(--space-3); }
+  .benefit + .benefit { border-left: 1px solid rgb(11 61 34 / 18%); }
+  .benefitIcon { width: 46px; height: 46px; }
+  .benefit h3 { font-size: 1.1rem; }
+  .benefit p { font-size: 0.9rem; }
+  .section { padding-block: var(--space-5) var(--space-3); }
+  .h { font-size: 1.9rem; }
+  .h::before { width: 2.6rem; }
+  .produce { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--space-3); }
+  .tile { aspect-ratio: 220 / 142; border-radius: 16px; }
+  .tileLabel { font-size: 1rem; padding: 0.55rem var(--space-3); }
+  .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+  .step { grid-template-columns: auto 1fr auto; padding-right: var(--space-3); }
+  .stepIcon { width: 72px; height: 72px; }
+  .stepArrow { display: block; }
+  .step:last-child { grid-template-columns: auto 1fr; }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .produce { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4) 0; }
+  .step:nth-child(2) .stepArrow { display: none; }
+}
