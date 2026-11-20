@@ -3,6 +3,7 @@ import { ArrowRight, FileText, Laptop, LogIn, Lock, Sprout, UserPlus, UserRound,
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import type { Locale } from "@/lib/i18n/config";
 import { PageHero } from "../PageHero";
+import { SignOutButton } from "./SignOutButton";
 import mk from "../masoko/MasokoContent.module.css";
 import styles from "./AccountContent.module.css";
 
@@ -16,8 +17,10 @@ const BENEFITS: { key: "services" | "opportunities" | "information" | "collabora
 /**
  * Akaunti: the account landing page. It only points to the three account
  * screens (login, join, password reset); it performs no authentication itself.
+ * When a visitor is signed in (decided on the server) it also shows who they are and a
+ * sign-out button. Being signed in is NOT membership.
  */
-export function AccountContent({ lang }: { lang: Locale }) {
+export function AccountContent({ lang, signedInEmail }: { lang: Locale; signedInEmail?: string | null }) {
   const dict = getDictionary(lang);
   const d = dict.accountPage;
   const base = `/${lang}`;
@@ -78,6 +81,15 @@ export function AccountContent({ lang }: { lang: Locale }) {
           ))}
         </ul>
       </div>
+
+      {signedInEmail && (
+        <div className={`containerWide ${styles.session}`} role="status">
+          <p>
+            {d.signedInAs} <strong>{signedInEmail}</strong>
+          </p>
+          <SignOutButton label={d.signOut} />
+        </div>
+      )}
 
       <section className={`containerWide ${styles.choose}`} aria-labelledby="ac-choose">
         <h2 id="ac-choose" className={styles.chooseTitle}>{d.choose}</h2>

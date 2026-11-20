@@ -333,3 +333,32 @@ test.describe("registration screen (Page 15)", () => {
     }
   });
 });
+
+test.describe("reset password page (offline: Supabase not configured)", () => {
+  test("says it is not connected, shows no form and is not indexed", async ({ page }) => {
+    const assertNoSupabase = forbidSupabaseRequests(page);
+    await page.goto("/sw/reset-password");
+    await expect(page.getByRole("heading", { level: 1, name: "Weka Nenosiri Jipya" })).toBeVisible();
+    await expect(page.getByRole("alert").filter({ hasText: "bado haujaunganishwa" })).toBeVisible();
+    await expect(page.locator("form")).toHaveCount(0);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+    await page.goto("/en/reset-password");
+    await expect(page.getByRole("heading", { level: 1, name: "Set a New Password" })).toBeVisible();
+    await expect(page.getByRole("alert").filter({ hasText: "not connected yet" })).toBeVisible();
+    assertNoSupabase();
+  });
+
+  test("the email callback fails safely offline and returns to login with a notice", async ({ page }) => {
+    await page.goto("/sw/auth/confirm?code=abc");
+    await expect(page).toHaveURL(/\/sw\/login\?error=confirm$/);
+    await expect(page.getByRole("alert").filter({ hasText: "Kiungo cha uthibitisho si sahihi" })).toBeVisible();
+    await page.goto("/en/auth/confirm?token_hash=x&type=recovery&next=//evil.example.com");
+    await expect(page).toHaveURL(/\/en\/login\?error=confirm$/);
+    await expect(page.getByRole("alert").filter({ hasText: "confirmation link is not valid" })).toBeVisible();
+  });
+
+  test("the account page shows no signed-in notice when signed out", async ({ page }) => {
+    await page.goto("/sw/akaunti");
+    await expect(page.getByRole("status")).toHaveCount(0);
+  });
+});
