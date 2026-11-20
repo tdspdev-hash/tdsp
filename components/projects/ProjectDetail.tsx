@@ -3,7 +3,7 @@ import { ArrowLeft, Calendar, CircleDot, Handshake, MapPin } from "lucide-react"
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { localizedSlug, type Locale } from "@/lib/i18n/config";
 import { contactPath } from "@/lib/navigation";
-import type { MockProject } from "@/lib/projects-mock";
+import type { Project } from "@/lib/data/projects";
 import { PageHero } from "../PageHero";
 import { ClosingBanner } from "../membership/ClosingBanner";
 import styles from "./ProjectDetail.module.css";
@@ -14,11 +14,9 @@ import styles from "./ProjectDetail.module.css";
  * funding figures (those need an approved change request). While the project
  * list is sample data, every page shows a visible "sample" note.
  */
-export function ProjectDetail({ lang, project }: { lang: Locale; project: MockProject }) {
+export function ProjectDetail({ lang, project }: { lang: Locale; project: Project }) {
   const dict = getDictionary(lang);
   const d = dict.projectsPage;
-  const item = d.list.items[project.id];
-  const info = d.detail.items[project.id];
   const listHref = `/${lang}/${localizedSlug("projects", lang)}`;
 
   return (
@@ -27,9 +25,9 @@ export function ProjectDetail({ lang, project }: { lang: Locale; project: MockPr
         lang={lang}
         homeLabel={dict.nav.welcome}
         breadcrumbLabel={d.breadcrumbLabel}
-        title={item.title}
+        title={project.title}
         parentCrumbs={[{ label: d.title, href: listHref }]}
-        text={item.text}
+        text={project.summary}
         photoLabel={d.hero.photoLabel}
         photoMobile="/pm-hero-mobile.jpg"
         photoDesktop="/pm-hero-desktop.jpg"
@@ -47,39 +45,42 @@ export function ProjectDetail({ lang, project }: { lang: Locale; project: MockPr
 
       <div className={`containerWide ${styles.wrap}`}>
         <article className={styles.article}>
-          <p className={styles.note} role="note">{d.detail.sampleNote}</p>
+          {project.isSample && <p className={styles.note} role="note">{d.detail.sampleNote}</p>}
 
           <div className={styles.photoWrap}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={project.image} alt={item.alt} className={styles.photo} />
+            {project.image && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={project.image} alt={project.title} className={styles.photo} />
+            )}
             <span className={styles.badge}>{d.list.status[project.status]}</span>
           </div>
 
           <dl className={styles.facts}>
             <div><dt><CircleDot size={18} aria-hidden="true" />{d.detail.facts.status}</dt><dd>{d.list.status[project.status]}</dd></div>
-            <div><dt><Calendar size={18} aria-hidden="true" />{d.detail.facts.period}</dt><dd>{project.period}</dd></div>
-            <div><dt><MapPin size={18} aria-hidden="true" />{d.detail.facts.location}</dt><dd>{project.location}</dd></div>
+            {project.period && <div><dt><Calendar size={18} aria-hidden="true" />{d.detail.facts.period}</dt><dd>{project.period}</dd></div>}
+            {project.location && <div><dt><MapPin size={18} aria-hidden="true" />{d.detail.facts.location}</dt><dd>{project.location}</dd></div>}
           </dl>
 
           <section aria-labelledby="pd-about" className={styles.section}>
             <h2 id="pd-about" className={styles.h}>{d.detail.aboutTitle}</h2>
-            <p>{info.p1}</p>
-            <p>{info.p2}</p>
+            {project.description.map((para, i) => <p key={i}>{para}</p>)}
           </section>
 
-          <section aria-labelledby="pd-objectives" className={styles.section}>
-            <h2 id="pd-objectives" className={styles.h}>{d.detail.objectivesTitle}</h2>
-            <ul className={styles.list}>
-              <li>{info.o1}</li>
-              <li>{info.o2}</li>
-              <li>{info.o3}</li>
-            </ul>
-          </section>
+          {project.objectives.length > 0 && (
+            <section aria-labelledby="pd-objectives" className={styles.section}>
+              <h2 id="pd-objectives" className={styles.h}>{d.detail.objectivesTitle}</h2>
+              <ul className={styles.list}>
+                {project.objectives.map((o, i) => <li key={i}>{o}</li>)}
+              </ul>
+            </section>
+          )}
 
-          <section aria-labelledby="pd-target" className={styles.section}>
-            <h2 id="pd-target" className={styles.h}>{d.detail.targetTitle}</h2>
-            <p>{info.target}</p>
-          </section>
+          {project.targetGroup && (
+            <section aria-labelledby="pd-target" className={styles.section}>
+              <h2 id="pd-target" className={styles.h}>{d.detail.targetTitle}</h2>
+              <p>{project.targetGroup}</p>
+            </section>
+          )}
 
           <Link href={listHref} className={styles.back}>
             <ArrowLeft size={20} aria-hidden="true" />

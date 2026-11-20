@@ -272,7 +272,9 @@ export const en: Dictionary = {
       mockNote: "Layout examples only. These projects are not verified TDSP records; they will be replaced with real projects.",
       period: "Period",
       location: "Location",
-      status: { ongoing: "Ongoing", completed: "Completed" },
+      status: { ongoing: "Ongoing", completed: "Completed", planned: "Planned", cancelled: "Cancelled" },
+      empty: "No projects have been published yet.",
+      error: "Projects could not be loaded right now. Please try again later.",
       items: {
         irrigation: { title: "Irrigation Farming Project", text: "Strengthening crop production with irrigation technology.", alt: "Vegetable fields being irrigated" },
         poultry: { title: "Poultry Farming Project", text: "Increasing farmers' incomes through modern poultry keeping.", alt: "Baby chicks" },

@@ -280,7 +280,9 @@ export const sw = {
       mockNote: "Mifano ya muundo wa ukurasa tu. Miradi hii si taarifa halisi zilizothibitishwa za TDSP; itabadilishwa na miradi halisi.",
       period: "Kipindi",
       location: "Mahali",
-      status: { ongoing: "Inaendelea", completed: "Imekamilika" },
+      status: { ongoing: "Inaendelea", completed: "Imekamilika", planned: "Imepangwa", cancelled: "Imeghairiwa" },
+      empty: "Hakuna miradi iliyochapishwa kwa sasa.",
+      error: "Imeshindikana kupakia miradi kwa sasa. Tafadhali jaribu tena baadaye.",
       items: {
         irrigation: { title: "Mradi wa Kilimo cha Umwagiliaji", text: "Kuimarisha uzalishaji wa mazao kwa teknolojia ya umwagiliaji.", alt: "Mashamba ya mboga yakimwagiliwa" },
         poultry: { title: "Mradi wa Ufugaji wa Kuku", text: "Kuongeza kipato cha wakulima kupitia ufugaji wa kuku wa kisasa.", alt: "Vifaranga vya kuku" },

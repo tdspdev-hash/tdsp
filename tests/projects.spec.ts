@@ -51,6 +51,12 @@ test.describe("Miradi & Andiko", () => {
     }
   });
 
+  test("offline (Supabase unset) the list uses the labelled sample content, never invented data", async ({ page }) => {
+    await page.goto("/sw/miradi-na-andiko");
+    await expect(page.locator("section[aria-labelledby='pm-list'] ul")).toHaveAttribute("data-source", "sample");
+    await expect(page.getByRole("note")).toBeVisible();
+  });
+
   test("the sample projects are clearly marked as not real records", async ({ page }) => {
     await page.goto("/sw/miradi-na-andiko");
     await expect(page.getByRole("note")).toContainText("si taarifa halisi zilizothibitishwa za TDSP");
