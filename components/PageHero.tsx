@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { Locale } from "@/lib/i18n/config";
-import { Breadcrumb } from "./Breadcrumb";
+import { Breadcrumb, type Crumb } from "./Breadcrumb";
 import styles from "./PageHero.module.css";
 
 /**
@@ -14,6 +14,7 @@ export function PageHero({
   breadcrumbLabel,
   title,
   crumb,
+  parentCrumbs,
   text,
   photoLabel,
   photoMobile,
@@ -42,6 +43,8 @@ export function PageHero({
   title: ReactNode;
   /** Breadcrumb label for the current page; required when `title` is markup (defaults to the title). */
   crumb?: string;
+  /** Breadcrumb items between Home and the current page (e.g. a section page above a detail page). */
+  parentCrumbs?: Crumb[];
   text: string;
   photoLabel: string;
   photoMobile: string;
@@ -107,7 +110,7 @@ export function PageHero({
         </>
       )}
       <div className={`containerWide ${styles.content}`}>
-        <Breadcrumb label={breadcrumbLabel} items={[{ label: homeLabel, href: `/${lang}` }, { label: crumb ?? (typeof title === "string" ? title : "") }]} />
+        <Breadcrumb label={breadcrumbLabel} items={[{ label: homeLabel, href: `/${lang}` }, ...(parentCrumbs ?? []), { label: crumb ?? (typeof title === "string" ? title : "") }]} />
         <h1 id="page-hero-title" className={styles.title}>{title}</h1>
         <p className={styles.text}>{text}</p>
         {children}

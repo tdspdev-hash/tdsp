@@ -58,10 +58,17 @@ test.describe("Miradi & Andiko", () => {
     await expect(page.getByRole("note")).toContainText("not verified TDSP records");
   });
 
-  test("no invented links: no 'view all' and no project detail arrows", async ({ page }) => {
+  test("no 'view all' link; each card has exactly one link, to its own detail page", async ({ page }) => {
     await page.goto("/sw/miradi-na-andiko");
     await expect(page.getByText("Tazama Miradi Yote")).toHaveCount(0);
-    await expect(page.locator("section[aria-labelledby='pm-list'] a")).toHaveCount(0);
+    const links = page.locator("section[aria-labelledby='pm-list'] li a");
+    await expect(links).toHaveCount(3);
+    await expect(links).toHaveText(["Mradi wa Kilimo cha Umwagiliaji", "Mradi wa Ufugaji wa Kuku", "Mradi wa Mafunzo kwa Wakulima"]);
+    for (const [i, id] of ["irrigation", "poultry", "training"].entries()) {
+      await expect(links.nth(i)).toHaveAttribute("href", `/sw/miradi-na-andiko/${id}`);
+    }
+    await page.goto("/en/projects-and-proposals");
+    await expect(page.locator("section[aria-labelledby='pm-list'] li a").first()).toHaveAttribute("href", "/en/projects-and-proposals/irrigation");
   });
 
   test("both CTAs go to the existing contact page", async ({ page }) => {
@@ -116,6 +123,109 @@ test.describe("Miradi & Andiko", () => {
   test("no horizontal overflow and the last content clears the bottom bar", async ({ page }) => {
     for (const p of ["/sw/miradi-na-andiko", "/en/projects-and-proposals"]) {
       await page.goto(p, { waitUntil: "load" });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+    }
+    test.skip(isDesktop(page), "no bottom bar on desktop");
+    await expect.poll(async () => {
+      await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+      const barTop = (await page.getByRole("navigation", { name: "Bottom menu" }).boundingBox())!.y;
+      const last = (await page.getByRole("contentinfo").locator("p").last().boundingBox())!;
+      return last.y + last.height <= barTop + 1;
+    }).toBe(true);
+  });
+});
+
+test.describe("Project detail pages (information only)", () => {
+  const PROJECTS = [
+    { id: "irrigation", sw: "Mradi wa Kilimo cha Umwagiliaji", en: "Irrigation Farming Project", swStatus: "Inaendelea", period: "2025–2027", place: "Morogoro" },
+    { id: "poultry", sw: "Mradi wa Ufugaji wa Kuku", en: "Poultry Farming Project", swStatus: "Inaendelea", period: "2025–2026", place: "Dodoma" },
+    { id: "training", sw: "Mradi wa Mafunzo kwa Wakulima", en: "Farmer Training Project", swStatus: "Imekamilika", period: "2023–2024", place: "Iringa" },
+  ];
+
+  test("each card opens its own page, in both languages", async ({ page }) => {
+    for (const p of PROJECTS) {
+      await page.goto("/sw/miradi-na-andiko");
+      await page.locator("section[aria-labelledby='pm-list']").getByRole("link", { name: p.sw }).click();
+      await expect(page).toHaveURL(new RegExp(`/sw/miradi-na-andiko/${p.id}$`));
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(p.sw);
+      await page.goto("/en/projects-and-proposals");
+      await page.locator("section[aria-labelledby='pm-list']").getByRole("link", { name: p.en }).click();
+      await expect(page).toHaveURL(new RegExp(`/en/projects-and-proposals/${p.id}$`));
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(p.en);
+    }
+  });
+
+  test("shows status, period, location, description, objectives and target group", async ({ page }) => {
+    for (const p of PROJECTS) {
+      await page.goto(`/sw/miradi-na-andiko/${p.id}`);
+      const facts = page.locator("dl").last();
+      await expect(facts).toContainText(p.swStatus);
+      await expect(facts).toContainText(p.period);
+      await expect(facts).toContainText(p.place);
+      await expect(page.getByRole("heading", { level: 2, name: "Kuhusu Mradi" })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 2, name: "Malengo ya Mradi" })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 2, name: "Walengwa" })).toBeVisible();
+      await expect(page.locator("article ul li")).toHaveCount(3);
+      const img = page.locator("article img");
+      await expect.poll(() => img.evaluate((e: HTMLImageElement) => e.complete && e.naturalWidth > 0)).toBe(true);
+      expect(await img.getAttribute("alt")).toBeTruthy();
+    }
+  });
+
+  test("clearly marked as sample information", async ({ page }) => {
+    await page.goto("/sw/miradi-na-andiko/irrigation");
+    await expect(page.getByRole("note")).toContainText("si taarifa halisi zilizothibitishwa za TDSP");
+    await page.goto("/en/projects-and-proposals/irrigation");
+    await expect(page.getByRole("note")).toContainText("not verified TDSP records");
+  });
+
+  test("information only: no donation, funding, money or loan wording", async ({ page }) => {
+    for (const path of PROJECTS.flatMap((p) => [`/sw/miradi-na-andiko/${p.id}`, `/en/projects-and-proposals/${p.id}`])) {
+      await page.goto(path);
+      const t = await page.locator("main").innerText();
+      expect(t, path).not.toMatch(/TSh|TZS|donat|chang(ia|ishi)|contribut|pledge|ahadi|fund(ing)?\b|ufadhili wa|mikopo|loan|kampuni|company|\d+%/i);
+    }
+  });
+
+  test("breadcrumb is Home > Miradi & Andiko > project; back link and language switch work", async ({ page }) => {
+    await page.goto("/sw/miradi-na-andiko/poultry");
+    const crumb = page.getByRole("navigation", { name: "Njia ya ukurasa" });
+    await expect(crumb.locator("[aria-current='page']")).toHaveText("Mradi wa Ufugaji wa Kuku");
+    await expect(crumb.getByRole("link", { name: "Miradi & Andiko" })).toHaveAttribute("href", "/sw/miradi-na-andiko");
+    await page.getByRole("link", { name: "English", exact: true }).click();
+    await expect(page).toHaveURL(/\/en\/projects-and-proposals\/poultry$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Poultry Farming Project");
+    await page.getByRole("link", { name: "Back to Projects" }).click();
+    await expect(page).toHaveURL(/\/en\/projects-and-proposals$/);
+  });
+
+  test("other-language address and unknown projects", async ({ page }) => {
+    await page.goto("/en/miradi-na-andiko/training");
+    await expect(page).toHaveURL(/\/en\/projects-and-proposals\/training$/);
+    await page.goto("/sw/projects-and-proposals/training");
+    await expect(page).toHaveURL(/\/sw\/miradi-na-andiko\/training$/);
+    expect((await page.goto("/sw/miradi-na-andiko/does-not-exist"))?.status()).toBe(404);
+  });
+
+  test("English page is fully translated", async ({ page }) => {
+    await page.goto("/en/projects-and-proposals/irrigation");
+    const t = await page.locator("main").innerText();
+    for (const sw of ["Kuhusu", "Malengo", "Walengwa", "Inaendelea", "Rudi", "Shirikiana Nasi", "wakulima"]) expect(t).not.toContain(sw);
+  });
+
+  test("hero text stays clear of the farmer, no overflow, clears the bottom bar", async ({ page }, info) => {
+    const sweep = info.project.name === "w1280" || width(page) < 560;
+    const widths = !sweep ? [] : width(page) >= 560 ? [900, 1024, 1100, 1200, 1280, 1439, 1440, 1920] : [width(page)];
+    for (const path of ["/sw/miradi-na-andiko/irrigation", "/en/projects-and-proposals/training"]) {
+      for (const w of widths) {
+        await page.setViewportSize({ width: w, height: 800 });
+        await page.goto(path);
+        const photoLeft = (await page.locator("main section").first().locator("[role=img]").boundingBox())!.x;
+        const rights = await page.locator("main section").first().evaluate((sec) => ["h1", "p"].map((q) => { const el = sec.querySelector(q)!; const r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect().right; }));
+        const limit = w >= 1440 ? photoLeft - 24 : w >= 560 ? photoLeft + 0.1 * (w - photoLeft) : w * 0.5;
+        for (const r of rights) expect(r, `${path} ${w}px`).toBeLessThanOrEqual(limit + 4);
+      }
+      await page.goto(path, { waitUntil: "load" });
       expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
     }
     test.skip(isDesktop(page), "no bottom bar on desktop");

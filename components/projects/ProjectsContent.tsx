@@ -3,6 +3,7 @@ import { ArrowRight, Calendar, ChartColumn, FilePenLine, Handshake, MapPin, Spro
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import type { Locale } from "@/lib/i18n/config";
 import { MOCK_PROJECTS, projectsAreMock } from "@/lib/projects-mock";
+import { localizedSlug } from "@/lib/i18n/config";
 import { contactPath } from "@/lib/navigation";
 import { PageHero } from "../PageHero";
 import { ClosingBanner } from "../membership/ClosingBanner";
@@ -75,8 +76,13 @@ export function ProjectsContent({ lang }: { lang: Locale }) {
                     <span className={styles.badge}>{d.list.status[p.status]}</span>
                   </div>
                   <div className={styles.cardBody}>
-                    <h3>{item.title}</h3>
+                    <h3>
+                      <Link href={`/${lang}/${localizedSlug("projects", lang)}/${p.id}`} className={styles.cardLink}>
+                        {item.title}
+                      </Link>
+                    </h3>
                     <p>{item.text}</p>
+                    <span className={styles.more} aria-hidden="true">{d.detail.view}<ArrowRight size={16} /></span>
                   </div>
                   <dl className={styles.meta}>
                     <div><dt className="srOnly">{d.list.period}</dt><Calendar size={16} aria-hidden="true" /><dd>{p.period}</dd></div>
