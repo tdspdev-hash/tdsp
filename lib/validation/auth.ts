@@ -61,3 +61,13 @@ export function createForgotSchema(e: Dictionary["forgot"]["errors"]) {
   });
 }
 export type ForgotValues = z.infer<ReturnType<typeof createForgotSchema>>;
+
+export function createResetSchema(e: Dictionary["reset"]["errors"]) {
+  return z
+    .object({
+      password: z.string().min(8, e.passwordShort),
+      confirmPassword: z.string(),
+    })
+    .refine((v) => v.password === v.confirmPassword, { path: ["confirmPassword"], message: e.passwordMismatch });
+}
+export type ResetValues = z.infer<ReturnType<typeof createResetSchema>>;

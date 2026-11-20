@@ -580,6 +580,8 @@ export const sw = {
     },
   },
   accountPage: {
+    signedInAs: "Umeingia kama",
+    signOut: "Ondoka",
     title: "Akaunti Yako ya",
     titleAccent: "TDSP",
     pageTitle: "Akaunti Yako ya TDSP",
@@ -722,6 +724,7 @@ export const sw = {
     notConfigured:
       "Mfumo wa akaunti bado haujaunganishwa. Tafadhali jaribu tena baadaye au wasiliana na ofisi ya TDSP.",
     genericError: "Imeshindikana. Tafadhali jaribu tena.",
+    rateLimited: "Maombi ni mengi kwa sasa. Tafadhali subiri kidogo kisha ujaribu tena.",
   },
   join: {
     title: "Jiunge na TDSP",
@@ -849,8 +852,29 @@ export const sw = {
       passwordRequired: "Tafadhali andika nenosiri.",
     },
     invalidCredentials: "Barua pepe au nenosiri si sahihi.",
+    confirmFailed: "Kiungo cha uthibitisho si sahihi au kimeisha muda. Tafadhali jaribu tena.",
     emailNotConfirmed: "Barua pepe haijathibitishwa. Tafadhali fungua kiungo ulichotumiwa kwenye barua pepe yako ili kuthibitisha akaunti.",
     signedIn: "Umeingia kwa mafanikio.",
+  },
+  reset: {
+    pageTitle: "Weka Nenosiri Jipya",
+    breadcrumbLabel: "Njia ya ukurasa",
+    crumb: "Nenosiri Jipya",
+    title: "Weka Nenosiri Jipya",
+    text: "Andika nenosiri jipya la akaunti yako ya TDSP.",
+    passwordLabel: "Nenosiri jipya",
+    passwordPlaceholder: "Ingiza nenosiri jipya",
+    confirmLabel: "Thibitisha nenosiri",
+    confirmPlaceholder: "Andika tena nenosiri jipya",
+    submit: "Hifadhi Nenosiri Jipya",
+    success: "Nenosiri lako limebadilishwa. Sasa unaweza kuingia.",
+    loginLink: "Ingia",
+    linkInvalid: "Kiungo hiki si sahihi au kimeisha muda. Tafadhali omba kiungo kipya.",
+    requestNew: "Omba Kiungo Kipya",
+    errors: {
+      passwordShort: "Nenosiri liwe na angalau herufi 8.",
+      passwordMismatch: "Manenosiri hayalingani.",
+    },
   },
   forgot: {
     title: "Umesahau Nenosiri?",

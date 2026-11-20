@@ -17,8 +17,8 @@ export default defineConfig({
   fullyParallel: true,
   reporter: [["list"]],
   projects: [
-    { name: "live-desktop", testMatch: /projects-live/, use: { baseURL: "http://localhost:3401", browserName: "chromium", viewport: { width: 1280, height: 800 } } },
-    { name: "live-phone", testMatch: /projects-live/, use: { baseURL: "http://localhost:3401", browserName: "chromium", viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true } },
+    { name: "live-desktop", testMatch: /(projects|auth)-live/, use: { baseURL: "http://localhost:3401", browserName: "chromium", viewport: { width: 1280, height: 800 } } },
+    { name: "live-phone", testMatch: /(projects|auth)-live/, use: { baseURL: "http://localhost:3401", browserName: "chromium", viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true } },
     { name: "outage-desktop", testMatch: /projects-outage/, use: { baseURL: "http://localhost:3402", browserName: "chromium", viewport: { width: 1280, height: 800 } } },
     { name: "outage-phone", testMatch: /projects-outage/, use: { baseURL: "http://localhost:3402", browserName: "chromium", viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true } },
   ],

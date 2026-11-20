@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, LogIn, Lock, Mail, UserPlus } from "lucide-react";
@@ -14,6 +15,12 @@ import styles from "./LoginContent.module.css";
 
 type Props = { lang: Locale; dict: Pick<Dictionary, "login" | "form"> };
 
+/** The email callback sends a failed or expired confirmation link back here with ?error=confirm. */
+function ConfirmFailedNotice({ text }: { text: string }) {
+  const failed = useSearchParams().get("error") === "confirm";
+  return failed ? <Alert kind="error">{text}</Alert> : null;
+}
+
 /**
  * Login card form. With Supabase configured it signs in with email + password;
  * without it, submitting valid input reports "not connected" and never signs
@@ -25,6 +32,7 @@ export function LoginForm({ lang, dict }: Props) {
   const schema = useMemo(() => createLoginSchema(login.errors), [login.errors]);
   const [result, setResult] = useState<AuthResult | null>(null);
   const [visible, setVisible] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -34,7 +42,12 @@ export function LoginForm({ lang, dict }: Props) {
 
   const onSubmit = async (values: LoginValues) => {
     setResult(null);
-    setResult(await signInMember(values.email, values.password));
+    const res = await signInMember(values.email, values.password);
+    setResult(res);
+    if (res.status === "ok") {
+      router.push(`/${lang}/akaunti`);
+      router.refresh();
+    }
   };
 
   const feedback =
@@ -85,6 +98,11 @@ export function LoginForm({ lang, dict }: Props) {
         <Link href={`/${lang}/forgot-password`} className={styles.forgot}>{login.forgot}</Link>
       </div>
 
+      {!feedback && (
+        <Suspense fallback={null}>
+          <ConfirmFailedNotice text={login.confirmFailed} />
+        </Suspense>
+      )}
       {feedback && <Alert kind={feedback.kind}>{feedback.text}</Alert>}
 
       <button type="submit" className={styles.submit} disabled={isSubmitting}>

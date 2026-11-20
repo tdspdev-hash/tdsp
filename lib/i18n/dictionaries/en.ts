@@ -571,6 +571,8 @@ export const en: Dictionary = {
     },
   },
   accountPage: {
+    signedInAs: "You are signed in as",
+    signOut: "Sign out",
     title: "Your TDSP",
     titleAccent: "Account",
     pageTitle: "Your TDSP Account",
@@ -712,6 +714,7 @@ export const en: Dictionary = {
     notConfigured:
       "The account system is not connected yet. Please try again later or contact the TDSP office.",
     genericError: "Something went wrong. Please try again.",
+    rateLimited: "Too many requests right now. Please wait a little and try again.",
   },
   join: {
     title: "Join TDSP",
@@ -839,8 +842,29 @@ export const en: Dictionary = {
       passwordRequired: "Please enter your password.",
     },
     invalidCredentials: "The email or password is not correct.",
+    confirmFailed: "The confirmation link is not valid or has expired. Please try again.",
     emailNotConfirmed: "Your email address is not confirmed yet. Please open the link we sent to your email to confirm your account.",
     signedIn: "You are signed in.",
+  },
+  reset: {
+    pageTitle: "Set a New Password",
+    breadcrumbLabel: "Breadcrumb",
+    crumb: "New Password",
+    title: "Set a New Password",
+    text: "Enter a new password for your TDSP account.",
+    passwordLabel: "New password",
+    passwordPlaceholder: "Enter a new password",
+    confirmLabel: "Confirm password",
+    confirmPlaceholder: "Enter the new password again",
+    submit: "Save New Password",
+    success: "Your password has been changed. You can now sign in.",
+    loginLink: "Sign in",
+    linkInvalid: "This link is not valid or has expired. Please request a new one.",
+    requestNew: "Request a New Link",
+    errors: {
+      passwordShort: "The password must have at least 8 characters.",
+      passwordMismatch: "The passwords do not match.",
+    },
   },
   forgot: {
     title: "Forgot Password?",
