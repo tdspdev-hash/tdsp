@@ -38,6 +38,7 @@ export function createRegisterSchema(e: Dictionary["join"]["errors"]) {
       areas: z.array(z.enum(AREA_KEYS)),
       password: z.string().min(8, e.passwordShort),
       confirmPassword: z.string(),
+      adult: z.boolean().refine((v) => v === true, e.adultRequired),
       consent: z.boolean().refine((v) => v === true, e.consentRequired),
     })
     .refine((v) => v.password === v.confirmPassword, {
@@ -46,6 +47,26 @@ export function createRegisterSchema(e: Dictionary["join"]["errors"]) {
     });
 }
 export type RegisterValues = z.infer<ReturnType<typeof createRegisterSchema>>;
+
+/** A signed-in user's own profile. Limits match the checks on public.profiles. */
+export function createProfileSchema(e: Dictionary["join"]["errors"] & { fullNameRequired: string }) {
+  return z.object({
+    fullName: z.string().trim().min(1, e.fullNameRequired).max(200),
+    phone: z
+      .string()
+      .trim()
+      .min(1, e.phoneRequired)
+      .refine((v) => PHONE_PATTERN.test(v.replace(/[\s-]/g, "")), e.phoneInvalid),
+    gender: z.enum(["", ...GENDER_KEYS]),
+    region: z.string().trim().min(1, e.regionRequired).max(100),
+    district: z.string().trim().min(1, e.districtRequired).max(100),
+    ward: z.string().trim().min(1, e.wardRequired).max(100),
+    village: z.string().trim().max(100),
+    occupation: z.string().trim().max(200),
+    areas: z.array(z.enum(AREA_KEYS)),
+  });
+}
+export type ProfileValues = z.infer<ReturnType<typeof createProfileSchema>>;
 
 export function createLoginSchema(e: Dictionary["login"]["errors"]) {
   return z.object({

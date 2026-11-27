@@ -94,6 +94,31 @@ export type Database = {
         };
         Relationships: [];
       };
+      // memberships and membership_applications: from migration 0002, PREPARED, NOT APPLIED.
+      // Only the columns the app reads. No client write path exists.
+      membership_applications: {
+        Row: {
+          created_at: string;
+          id: string;
+          requested_category: "kawaida" | "hai" | "premium";
+          user_id: string | null;
+        };
+        Insert: Record<string, never>;
+        Update: Record<string, never>;
+        Relationships: [];
+      };
+      memberships: {
+        Row: {
+          application_id: string;
+          approved_at: string;
+          member_number: string;
+          status: "active" | "suspended" | "ended";
+          user_id: string | null;
+        };
+        Insert: Record<string, never>;
+        Update: Record<string, never>;
+        Relationships: [];
+      };
       project_admin: {
         Row: {
           created_at: string;

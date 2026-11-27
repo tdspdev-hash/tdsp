@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { AccountContent } from "@/components/account/AccountContent";
+import { MemberArea } from "@/components/account/MemberArea";
 import { getCurrentUser } from "@/lib/auth/server";
 import { isLocale, localizedSlug } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -19,5 +20,5 @@ export default async function Page({ params }: Props) {
   if (!isLocale(lang)) notFound();
   if (lang !== "sw") redirect(`/${lang}/${localizedSlug("account", lang)}`);
   const user = await getCurrentUser();
-  return <AccountContent lang={lang} signedInEmail={user?.email ?? null} />;
+  return user ? <MemberArea lang={lang} user={user} /> : <AccountContent lang={lang} />;
 }

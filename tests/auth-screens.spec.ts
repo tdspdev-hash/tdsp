@@ -275,6 +275,9 @@ test.describe("registration screen (Page 15)", () => {
     await form(page).getByRole("button", { name: "Join TDSP" }).click();
     await expect(page.getByText("You must accept this declaration to continue.")).toBeVisible();
     await page.getByRole("checkbox", { name: /I confirm that the information/ }).check();
+    await form(page).getByRole("button", { name: "Join TDSP" }).click(); // age confirmation is required too
+    await expect(page.getByText("You must be 18 or over to register.")).toBeVisible();
+    await page.getByRole("checkbox", { name: "I confirm that I am 18 years old or over." }).check();
     await form(page).getByRole("button", { name: "Join TDSP" }).click();
     await expect(page.getByRole("alert").filter({ hasText: "not connected yet" })).toBeVisible();
     await expect(page.getByText(/account has been created|Akaunti yako imefunguliwa/i)).toHaveCount(0);

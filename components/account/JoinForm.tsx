@@ -42,7 +42,7 @@ export function JoinForm({ lang, dict }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<RegisterValues>({
     resolver: zodResolver(schema),
-    defaultValues: { firstName: "", lastName: "", gender: "", phone: "", email: "", region: "", district: "", ward: "", village: "", occupation: "", areas: [], password: "", confirmPassword: "", consent: false },
+    defaultValues: { firstName: "", lastName: "", gender: "", phone: "", email: "", region: "", district: "", ward: "", village: "", occupation: "", areas: [], password: "", confirmPassword: "", adult: false, consent: false },
   });
   const values = useWatch({ control });
 
@@ -172,6 +172,13 @@ export function JoinForm({ lang, dict }: Props) {
           <dt>{join.review.location}</dt><dd>{[values.ward, values.district, values.region].filter(Boolean).join(", ")}</dd>
         </dl>
         <Alert kind="info">{join.stepNote}</Alert>
+        <div className={ui.field}>
+          <label className={ui.choice}>
+            <input type="checkbox" aria-invalid={errors.adult ? "true" : undefined} aria-describedby={errors.adult ? "adult-error" : undefined} {...register("adult")} />
+            <span>{join.fields.adult}</span>
+          </label>
+          {errors.adult && <p id="adult-error" role="alert" className={ui.error}>{errors.adult.message}</p>}
+        </div>
         <div className={ui.field}>
           <label className={ui.choice}>
             <input type="checkbox" aria-invalid={errors.consent ? "true" : undefined} aria-describedby={errors.consent ? "consent-error" : undefined} {...register("consent")} />
