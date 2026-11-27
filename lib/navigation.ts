@@ -62,7 +62,7 @@ export function bottomNav(lang: Locale, nav: Dictionary["nav"]): NavItem[] {
       // Account covers sign-in, registration and password reset until a
       // member account area exists.
       isActive: (p) =>
-        under(p, accountPath(lang)) || under(p, `${base}/login`) || under(p, `${base}/join`) || under(p, `${base}/forgot-password`),
+        under(p, accountPath(lang)) || under(p, `${base}/login`) || under(p, `${base}/join`) || under(p, `${base}/forgot-password`) || under(p, `${base}/member`),
     },
   ];
 }

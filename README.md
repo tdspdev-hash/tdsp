@@ -128,3 +128,14 @@ Playwright starts the app with Supabase variables forced empty, and the screen t
 - `npm audit` reports high-severity findings in the ESLint/typescript-eslint dependency chain (dev tooling, not shipped). Not force-fixed because the suggested fix downgrades `eslint-config-next`.
 - Contact form validates but sends nothing.
 - Not yet tested: authentication, role-specific navigation, access control (nothing to test until Milestone 2).
+
+## Member portal
+
+`/[lang]/member/*` is for signed-in users with an ACTIVE membership only (checked on the server in every page). It depends on migration `0002_membership`, which is prepared and NOT applied, so no real account can open it yet.
+
+Tests with a local stand-in for Supabase (synthetic data; Row Level Security is not tested):
+
+```bash
+npx playwright test -c playwright.member.config.ts
+```
+
