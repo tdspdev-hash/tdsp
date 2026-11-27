@@ -33,6 +33,8 @@ test("member menu: order, active item, every link works, no overflow", async ({ 
   await expect(page).toHaveURL(/dashboard$/);
   const menu = page.getByRole("navigation", { name: "Menyu ya mwanachama" });
   await expect(menu.getByRole("link")).toHaveText(ORDER_SW);
+  // Icons must not be squeezed away in the scrolling phone menu.
+  expect(await menu.locator("svg").evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().width)))).toEqual(Array(9).fill(20));
   for (const [i, slug] of SLUGS.entries()) {
     await menu.getByRole("link", { name: ORDER_SW[i] }).click();
     await expect(page).toHaveURL(new RegExp(`/sw/member/${slug}$`));
