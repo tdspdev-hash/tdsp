@@ -13,3 +13,13 @@ test("member routes send signed-out visitors to login in both languages", async 
     }
   }
 });
+
+test("signed-out header keeps Login and Join on pages whose address starts like /member", async ({ page }, info) => {
+  test.skip(info.project.name !== "w1440", "header buttons are desktop only");
+  for (const path of ["/en/membership", "/sw/uanachama"]) {
+    await page.goto(path);
+    const banner = page.getByRole("banner");
+    await expect(banner.locator("a[href$='/join']"), path).toBeVisible();
+    await expect(banner.locator("a[href$='/account'], a[href$='/akaunti']"), path).toBeVisible();
+  }
+});

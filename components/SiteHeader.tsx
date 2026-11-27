@@ -3,13 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Mail, MapPin, Phone, UserPlus } from "lucide-react";
+import { Mail, MapPin, Phone, UserPlus, UserRound } from "lucide-react";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries/sw";
 import { accountPath, desktopNav } from "@/lib/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import ui from "./ui.module.css";
+import { useSignedIn } from "./useSignedIn";
 import styles from "./SiteHeader.module.css";
 
 type Props = {
@@ -22,11 +23,16 @@ type Props = {
  *  - from 900px: dark contact strip + white header with horizontal navigation;
  *  - below 900px: compact app bar (logo, name, language switch). Navigation on
  *    small screens is the fixed bottom bar (see BottomNav), not a hamburger.
+ * Account buttons: signed out = Ingia + Jiunge; signed in = one "My Account" link;
+ * member pages = none, because the member header has the account menu.
  */
 export function SiteHeader({ lang, dict }: Props) {
   const pathname = usePathname();
   const { nav } = dict;
   const items = desktopNav(lang, nav);
+  const signedIn = useSignedIn();
+  // Exact segment: "/en/membership" is a public page, not the member area.
+  const memberArea = `${pathname}/`.startsWith(`/${lang}/member/`);
 
   return (
     <>
@@ -92,13 +98,22 @@ export function SiteHeader({ lang, dict }: Props) {
           </nav>
 
           <div className={styles.actions}>
-            <Link href={accountPath(lang)} className={styles.loginLink}>
-              {nav.login}
-            </Link>
-            <Link href={`/${lang}/join`} className={`${ui.button} ${styles.joinButton}`}>
-              <UserPlus size={20} aria-hidden="true" />
-              {nav.join}
-            </Link>
+            {memberArea ? null : signedIn ? (
+              <Link href={accountPath(lang)} className={`${ui.button} ${styles.joinButton}`}>
+                <UserRound size={20} aria-hidden="true" />
+                {nav.myAccount}
+              </Link>
+            ) : (
+              <>
+                <Link href={accountPath(lang)} className={styles.loginLink}>
+                  {nav.login}
+                </Link>
+                <Link href={`/${lang}/join`} className={`${ui.button} ${styles.joinButton}`}>
+                  <UserPlus size={20} aria-hidden="true" />
+                  {nav.join}
+                </Link>
+              </>
+            )}
           </div>
 
           <LanguageSwitcher

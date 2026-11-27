@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Bell, ClipboardList, GraduationCap, IdCard, UserRound } from "lucide-react";
 import styles from "@/components/member/Member.module.css";
 import { formatDate, MembershipDetails } from "@/components/member/MembershipDetails";
 import { MEMBER_SECTIONS, memberPath } from "@/components/member/sections";
@@ -38,20 +39,26 @@ export default async function DashboardPage({ params }: Props) {
       <section className={`${styles.card} ${styles.hero}`} aria-labelledby="db-membership">
         <h2 id="db-membership">{d.nav.membership}</h2>
         <MembershipDetails lang={lang} name={profile?.full_name ?? null} membership={membership} dict={d} />
-        <Link href={memberPath(lang, "profile")} className={styles.link}>{d.nav.profile}</Link>
+        <Link href={memberPath(lang, "profile")} className={styles.button}>
+          <UserRound size={18} aria-hidden="true" />
+          {d.nav.profile}
+        </Link>
       </section>
 
       <ul className={styles.summary} aria-label={d.summaryLabel}>
         {[
-          [d.fields.status, d.active],
-          [d.nav.requests, d.unavailable],
-          [d.nav.training, d.unavailable],
-          [d.nav.notifications, d.unavailable],
-        ].map(([label, value]) => (
+          { label: d.fields.status, value: d.active, Icon: IdCard, available: true },
+          { label: d.nav.requests, value: d.unavailable, Icon: ClipboardList, available: false },
+          { label: d.nav.training, value: d.unavailable, Icon: GraduationCap, available: false },
+          { label: d.nav.notifications, value: d.unavailable, Icon: Bell, available: false },
+        ].map(({ label, value, Icon, available }) => (
           <li key={label} className={styles.card}>
             <div className={styles.stat}>
-              <h3>{label}</h3>
-              <p>{value}</p>
+              <h3>
+                <Icon size={18} aria-hidden="true" />
+                {label}
+              </h3>
+              <p className={available ? undefined : styles.muted}>{value}</p>
             </div>
           </li>
         ))}
@@ -63,9 +70,11 @@ export default async function DashboardPage({ params }: Props) {
           {MEMBER_SECTIONS.filter((s) => s.key !== "dashboard" && s.key !== "settings").map(({ key, slug, Icon, ready }) => (
             <li key={key}>
               <Link href={memberPath(lang, slug)}>
-                <Icon size={22} aria-hidden="true" />
-                {d.nav[key]}
-                {!ready && <span className={styles.soon}>{d.soon}</span>}
+                <Icon aria-hidden="true" />
+                <span className={styles.label}>
+                  {d.nav[key]}
+                  {!ready && <span className={styles.soon}>{d.soon}</span>}
+                </span>
               </Link>
             </li>
           ))}
@@ -74,6 +83,7 @@ export default async function DashboardPage({ params }: Props) {
 
       <section className={styles.card} aria-labelledby="db-activity">
         <h2 id="db-activity">{d.activity.title}</h2>
+        {activity.length === 0 && <p>{d.activity.empty}</p>}
         <ul className={styles.activity}>
           {activity.map(({ label, at }) => (
             <li key={label}>

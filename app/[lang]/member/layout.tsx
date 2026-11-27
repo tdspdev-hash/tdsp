@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Bell, ChevronDown } from "lucide-react";
+import { Bell } from "lucide-react";
 import { SignOutButton } from "@/components/account/SignOutButton";
+import { AccountMenu } from "@/components/member/AccountMenu";
 import styles from "@/components/member/Member.module.css";
 import { MemberNav } from "@/components/member/MemberNav";
 import { memberPath } from "@/components/member/sections";
@@ -51,15 +52,7 @@ export default async function MemberLayout({ children, params }: Props) {
         <Link href={memberPath(lang, "notifications")} className={styles.iconButton} aria-label={d.nav.notifications}>
           <Bell size={20} aria-hidden="true" />
         </Link>
-        <details className={styles.menu}>
-          <summary className={styles.iconButton} aria-label={d.accountMenu}>
-            <ChevronDown size={20} aria-hidden="true" />
-          </summary>
-          <div className={styles.menuPanel}>
-            <Link href={memberPath(lang, "settings")}>{d.nav.settings}</Link>
-            <SignOutButton label={dict.accountPage.signOut} />
-          </div>
-        </details>
+        <AccountMenu label={d.accountMenu} settingsHref={memberPath(lang, "settings")} settingsLabel={d.nav.settings} signOutLabel={dict.accountPage.signOut} />
       </div>
       <MemberNav lang={lang} dict={{ navLabel: d.navLabel, nav: d.nav }} />
       <div className={styles.body}>{children}</div>
